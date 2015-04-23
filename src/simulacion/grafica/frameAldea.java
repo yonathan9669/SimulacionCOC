@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.layout.Border;
+import javax.swing.BorderFactory;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 /**
@@ -40,7 +42,34 @@ public class frameAldea extends javax.swing.JFrame {
     public frameAldea() {
      
             initComponents();
-          
+            ubicacion_labels();
+            iniciarObjTropas();        
+            iniciarObjEdificios();
+           
+    }
+    void ubicacion_labels(){
+        
+        javax.swing.border.Border border = BorderFactory.createLineBorder(Color.red);
+        javax.swing.border.Border border2 = BorderFactory.createLineBorder(Color.green);
+         
+            this.e1.setBorder(border);
+            this.e2.setBorder(border);
+            this.e3.setBorder(border);
+            this.e4.setBorder(border);
+            this.timef.setBorder(border2);
+              
+            this.jLabel21.setIcon(new ImageIcon(getClass().
+                    getResource("Barbarian.png")));
+            
+            this.jLabel22.setIcon(new ImageIcon(getClass().
+                    getResource("Archer.png")));           
+            
+            this.jLabel23.setIcon(new ImageIcon(getClass().
+                    getResource("Giant.png"))); 
+           
+            this.jLabel25.setIcon(new ImageIcon(getClass().
+                    getResource("Goblin.png")));
+           
             this.jLabel3.setIcon(new ImageIcon(getClass().
                     getResource("logo.png")));
             
@@ -82,14 +111,6 @@ public class frameAldea extends javax.swing.JFrame {
             
             this.jLabel12.setIcon(new ImageIcon(getClass().
                     getResource("barracks.png")));
-            
-            iniciarObjTropas();        
-            iniciarObjEdificios();
-           
-          
-           //   inicial();
-        
-         
     }
     
     //------------------------------ INICIAR OBJETOS TROPAS ---------------------------------
@@ -698,7 +719,7 @@ public class frameAldea extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        timef = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -708,6 +729,13 @@ public class frameAldea extends javax.swing.JFrame {
         jTextFieldElixRec = new javax.swing.JTextField();
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel20 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        e1 = new javax.swing.JTextField();
+        e2 = new javax.swing.JTextField();
+        e3 = new javax.swing.JTextField();
+        e4 = new javax.swing.JTextField();
+        jProgressBar2 = new javax.swing.JProgressBar();
+        jLabel26 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -789,18 +817,13 @@ public class frameAldea extends javax.swing.JFrame {
         jTextFieldDuende.setEnabled(false);
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 0, 0));
         jLabel18.setText("Tropas");
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel19.setText("Tiempo");
 
-        jTextField15.setEnabled(false);
-
-        jLabel21.setText("jLabel21");
-
-        jLabel22.setText("jLabel22");
-
-        jLabel23.setText("jLabel23");
+        timef.setEnabled(false);
 
         jLabel24.setText("AYUNTAMIENTO");
 
@@ -816,6 +839,18 @@ public class frameAldea extends javax.swing.JFrame {
         jTextFieldElixRec.setEnabled(false);
 
         jLabel20.setText("Vida");
+
+        e1.setEnabled(false);
+
+        e2.setEnabled(false);
+
+        e3.setEnabled(false);
+
+        e4.setEnabled(false);
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel26.setText("Vida");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -914,23 +949,40 @@ public class frameAldea extends javax.swing.JFrame {
                         .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel21))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(e2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(e1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(78, 78, 78)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(e4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(e3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(jLabel18)
-                        .addGap(229, 229, 229)
                         .addComponent(jLabel19)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addComponent(timef, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel22)
-                            .addComponent(jLabel21)
-                            .addComponent(jLabel23))))
-                .addContainerGap(320, Short.MAX_VALUE))
+                        .addComponent(jLabel26)
+                        .addGap(18, 18, 18)
+                        .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -969,7 +1021,7 @@ public class frameAldea extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel13))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jProgressBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -1013,20 +1065,33 @@ public class frameAldea extends javax.swing.JFrame {
                             .addComponent(jTextFieldCuartel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17)
                             .addComponent(jTextFieldDuende, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel19)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addComponent(jLabel21)
-                .addGap(32, 32, 32)
-                .addComponent(jLabel22)
-                .addGap(35, 35, 35)
-                .addComponent(jLabel23)
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addGap(2, 2, 2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel23)
+                            .addComponent(e1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(e3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel25)
+                            .addComponent(e2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(e4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(timef, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel26))))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
 
         pack();
@@ -1035,14 +1100,17 @@ int life1;
     void inicial(){
         int life = 0;
          for(Edificio e: aldea.edificios){
-
                   life=e.vidaActual+life;
            }
-        life1=life;
-         jProgressBar1.setMaximum(life1);
-             jProgressBar1.setStringPainted(true);
-             jProgressBar1.setBackground(Color.WHITE);
-             jProgressBar1.setForeground(Color.black);
+         
+            life1=life;
+            jProgressBar1.setMaximum(life1);
+            jProgressBar1.setStringPainted(true);
+            jProgressBar1.setBackground(Color.WHITE);
+            jProgressBar1.setForeground(Color.black);
+            jProgressBar2.setStringPainted(true);
+            jProgressBar2.setBackground(Color.WHITE);
+            jProgressBar2.setForeground(Color.black);
     }
     
     
@@ -1051,27 +1119,20 @@ int life1;
      UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
        int life=0;
          
-      
-                 
                   for(Edificio e: aldea.edificios){
                       life=e.vidaActual+life;
                        jProgressBar1.setValue(life);
                        
                          try {
                                Thread.sleep(1000);
-                  }      catch (InterruptedException ex) { 
-             Logger.getLogger(frameAldea.class.getName()).log(Level.SEVERE, null, ex);
-         } 
-                  }
-                   
-             
-                 
-                
-   
-            
-    
+                         }catch (InterruptedException ex) { 
+                             Logger.getLogger(frameAldea.class.getName()).log(Level.SEVERE, null, ex);
+                         } 
+                      }
+ 
     }
-            
+     
+  
     private void jButtonCrearEdificioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearEdificioActionPerformed
      frameComprarEdificios obj = new frameComprarEdificios(this);
     
@@ -1117,6 +1178,10 @@ private void jTextFieldOroMinaActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_jTextFieldOroMinaActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField e1;
+    private javax.swing.JTextField e2;
+    private javax.swing.JTextField e3;
+    private javax.swing.JTextField e4;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonCrearEdificio;
@@ -1140,6 +1205,8 @@ private void jTextFieldOroMinaActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1148,8 +1215,8 @@ private void jTextFieldOroMinaActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextFieldArquera;
     private javax.swing.JTextField jTextFieldAyuntamiento;
     private javax.swing.JTextField jTextFieldBarbaro;
@@ -1167,5 +1234,6 @@ private void jTextFieldOroMinaActionPerformed(java.awt.event.ActionEvent evt) {/
     private javax.swing.JTextField jTextFieldOroMina;
     private javax.swing.JTextField jTextFieldRecolector;
     private javax.swing.JTextField jTextFieldTorre;
+    private javax.swing.JTextField timef;
     // End of variables declaration//GEN-END:variables
 }
