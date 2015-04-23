@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ClaseAldea {
+public class Aldea {
     //------------------------------ VARIABLES ---------------------------------
     // <editor-fold desc="Variables">
     // oro: Cantidad de oro
@@ -15,14 +15,14 @@ public class ClaseAldea {
     public int poblacion;
     private int idTropas;
     //
-    public ArrayList<ClaseEdificio> edificios;
-    public ArrayList<ClaseTropa> tropas;
-    public ArrayList<ClaseTropa> tropasEnemigas;
+    public ArrayList<Edificio> edificios;
+    public ArrayList<Tropa> tropas;
+    public ArrayList<Tropa> tropasEnemigas;
     //  </editor-fold>
     
     //------------------------------ CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="Constructor">
-    public ClaseAldea(double or, double el){
+    public Aldea(double or, double el){
         oro = or;
         elixir = el;
         poblacion = 0;
@@ -50,7 +50,7 @@ public class ClaseAldea {
     // <editor-fold defaultstate="collapsed" desc="capacidadOro">
     public int capacidadOro(){
         int capacidad = 0;
-        for(ClaseEdificio e: edificios){
+        for(Edificio e: edificios){
             if(e.tipo == vg.AYUNTAMIENTO)
                 return e.mejoras[e.nivel].capacidad;
         }
@@ -62,7 +62,7 @@ public class ClaseAldea {
     // <editor-fold defaultstate="collapsed" desc="capacidadElixir">
     public int capacidadElixir(){
         int capacidad = 0;
-        for(ClaseEdificio e: edificios){
+        for(Edificio e: edificios){
             if(e.tipo == vg.AYUNTAMIENTO)
                 return e.mejoras[e.nivel].capacidad;
         }
@@ -102,7 +102,7 @@ public class ClaseAldea {
     // <editor-fold defaultstate="collapsed" desc="constructoresLibres">
     public int constructoresLibres(){
         int libres = 0;
-        for(ClaseEdificio e: edificios){
+        for(Edificio e: edificios){
             if(e.tipo == vg.CHOZA && e.constructorLibre())
                 libres ++;
         }
@@ -113,7 +113,7 @@ public class ClaseAldea {
     //------------------------------ LIBERAR CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="liberarConstructor">
     public void liberarConstructor(){
-        for(ClaseEdificio e: edificios){
+        for(Edificio e: edificios){
             if(e.tipo == vg.CHOZA && !e.constructorLibre()){
                 e.liberarConstructor();
                 break;
@@ -125,7 +125,7 @@ public class ClaseAldea {
     //------------------------------ BLOQUEAR CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="bloquearConstructor">
     public void bloquearConstructor(){
-        for(ClaseEdificio e: edificios){
+        for(Edificio e: edificios){
             if(e.tipo == vg.CHOZA && e.constructorLibre()){
                 e.bloquearConstructor();
                 break;
@@ -137,9 +137,9 @@ public class ClaseAldea {
     //------------------------------ CREAR EDIFICIO ---------------------------------
     // Crear edificio es al iniciar la aldea. No genera un evento futuro y es habilitado de una vez.
     // <editor-fold defaultstate="collapsed" desc="crearEdificio">
-    public void crearEdificio(ClaseEdificio ed){
+    public void crearEdificio(Edificio ed){
         // Crear objeto nuevo edificio
-        ClaseEdificio edif = new ClaseEdificio(ed.tipo, ed.tipoCompra, ed.mejoras);
+        Edificio edif = new Edificio(ed.tipo, ed.tipoCompra, ed.mejoras);
         
         //Liberar constructor si este edificio es una choza
         if(edif.tipo == vg.CHOZA)
@@ -160,9 +160,9 @@ public class ClaseAldea {
     // Construir edificio es para luego de iniciar la aldea. Genera un evento futuro y 
     // empieza deshabilitado. El evento futuro es cuando culmina la construccion y ahi se habilita.
     // <editor-fold defaultstate="collapsed" desc="construirEdificio">
-    public EventoFuturo construirEdificio(Date tiempo, ClaseEdificio ed){
+    public EventoFuturo construirEdificio(Date tiempo, Edificio ed){
         // Crear objeto nuevo edificio
-        ClaseEdificio edif = new ClaseEdificio(ed.tipo, ed.tipoCompra, ed.mejoras);
+        Edificio edif = new Edificio(ed.tipo, ed.tipoCompra, ed.mejoras);
         
         //Aumentar nivel
         //edif.aumentarNivel();
@@ -188,7 +188,7 @@ public class ClaseAldea {
     
     //------------------------------ MEJORAR EDIFICIO ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="mejorarEdificio">
-    public EventoFuturo mejorarEdificio(Date tiempo, ClaseEdificio ed){
+    public EventoFuturo mejorarEdificio(Date tiempo, Edificio ed){
         //Deshabilitar
         ed.deshabilitar();
         
@@ -214,7 +214,7 @@ public class ClaseAldea {
     // <editor-fold defaultstate="collapsed" desc="capacidadTropas">
     public int capacidadTropas(){
         int capacidad = 0;
-        for(ClaseEdificio edificio : edificios){
+        for(Edificio edificio : edificios){
             if(edificio.tipo == vg.CAMPAMENTO)
                 capacidad += edificio.capacidadCola();
         }
@@ -227,9 +227,9 @@ public class ClaseAldea {
     // Esta tropa debio haberse empezado a construir en Edificio.java, luego de el evento EV_CULMINAR_TROPA, 
     // la tropa se saca del edificio y agrega a la aldea
     // <editor-fold defaultstate="collapsed" desc="habilitarTropa">
-    public void habilitarTropa(ClaseTropa tr){
+    public void habilitarTropa(Tropa tr){
         // Crear objeto de nueva tropa
-        ClaseTropa tropa = new ClaseTropa(tr.tipo, tr.precio, tr.peso, tr.vida, tr.tasaDaño, tr.tiempo, tr.nivelCuartel);
+        Tropa tropa = new Tropa(tr.tipo, tr.precio, tr.peso, tr.vida, tr.tasaDaño, tr.tiempo, tr.nivelCuartel);
         // Asignar id de tropa
         tropa.setId(tr.id);
         // Habilitarla
@@ -242,7 +242,7 @@ public class ClaseAldea {
     //------------------------------ USAR TROPAS ---------------------------------
     // Usar tropas para "atacar"
     // <editor-fold defaultstate="collapsed" desc="usarTropas">
-    public void usarTropas(ArrayList<Integer> cantidad, ArrayList<Integer> tipos, ClaseAldea enemigo){
+    public void usarTropas(ArrayList<Integer> cantidad, ArrayList<Integer> tipos, Aldea enemigo){
         
     }    
     //  </editor-fold>
@@ -251,7 +251,7 @@ public class ClaseAldea {
     // Si algun edificio tiene mas de 0 de vida, la aldea NO esta destruida
     // <editor-fold defaultstate="collapsed" desc="destruida">
     public boolean destruida(){
-        for(ClaseEdificio edificio : edificios){
+        for(Edificio edificio : edificios){
             if(edificio.vidaActual > 0)
                 return false;
         }
@@ -293,9 +293,9 @@ public class ClaseAldea {
     
     //------------------------------ OBTENER LISTA DE TORRES ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="torres">
-    public ArrayList<ClaseEdificio> torres(){
-        ArrayList<ClaseEdificio> torres = new ArrayList<ClaseEdificio>();
-        for(ClaseEdificio ed : edificios){
+    public ArrayList<Edificio> torres(){
+        ArrayList<Edificio> torres = new ArrayList<Edificio>();
+        for(Edificio ed : edificios){
             // Preguntar si edificio es una torre
             if(ed.tipo == vg.TORRE || ed.tipo == vg.CAÑON || ed.tipo == vg.MORTERO)
                 torres.add(ed);

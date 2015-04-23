@@ -12,4 +12,8 @@ public class itemMejorarEdificio {
         nombre = no;
     }
 
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 }    

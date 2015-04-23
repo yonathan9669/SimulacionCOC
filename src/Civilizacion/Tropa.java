@@ -1,7 +1,7 @@
 
 package Civilizacion;
 
-public class ClaseTropa {
+public class Tropa {
     
     //------------------------------ VARIABLES ---------------------------------
     // <editor-fold desc="Variables">
@@ -28,7 +28,7 @@ public class ClaseTropa {
     
     //------------------------------ CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="Constructor">
-    public ClaseTropa(int tip, int pr, int pe, int vi, int taDa, int segundos, int niCu){
+    public Tropa(int tip, int pr, int pe, int vi, int taDa, int segundos, int niCu){
         tipo = tip;
         precio = pr;
         peso = pe;
@@ -74,7 +74,7 @@ public class ClaseTropa {
     
     //------------------------------ ATACAR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="Atacar">
-    public void atacar(ClaseEdificio edificio){
+    public void atacar(Edificio edificio){
         
     }
     //  </editor-fold>

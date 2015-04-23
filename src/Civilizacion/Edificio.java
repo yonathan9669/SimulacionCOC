@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ClaseEdificio {
+public class Edificio {
     //------------------------------ VARIABLES ---------------------------------
     // <editor-fold desc="Variables">
     // tipoCompra: Si el edificio se compra con "oro" o "elixir"
@@ -26,14 +26,14 @@ public class ClaseEdificio {
     // idObjetivo: Identificador de la tropa a la que esta atacando
     public int idObjetivo;
     // colaTropas: Unidades en cola en un cuartel
-    public ArrayList<ClaseTropa> colaTropas;
+    public ArrayList<Tropa> colaTropas;
     // constructorLibre: Valido solo para chozas porque por cada choza hay un constructor
     private boolean constructorLibre;
     //  </editor-fold>
     
     //------------------------------ CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="Constructor">
-    public ClaseEdificio(int ti, String tiCo, Mejora me[]){
+    public Edificio(int ti, String tiCo, Mejora me[]){
         nivel = 0;
         tipo = ti;
         tipoCompra = tiCo;
@@ -161,7 +161,7 @@ public class ClaseEdificio {
     // Saber si el tipo de tropa que se recibe por parametros esta disponible en este cuartel
     // (Si no esta disponible, el cuartel necesita subir de nivel)
     // <editor-fold defaultstate="collapsed" desc="disponible">
-    public boolean disponible(ClaseTropa tropa){
+    public boolean disponible(Tropa tropa){
         if( (tipo == vg.CUARTEL) && (nivel >= tropa.nivelCuartel) )
             return true;
         else
@@ -182,9 +182,9 @@ public class ClaseEdificio {
     
     //------------------------------ CONSTRUIR TROPA ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="construirTropa">
-    public EventoFuturo construirTropa(Date tiempo, ClaseTropa tr, int id){
+    public EventoFuturo construirTropa(Date tiempo, Tropa tr, int id){
         // Crear objeto de nueva tropa
-        ClaseTropa tropa = new ClaseTropa(tr.tipo, tr.precio, tr.peso, tr.vida, tr.tasaDaño, tr.tiempo, tr.nivelCuartel);
+        Tropa tropa = new Tropa(tr.tipo, tr.precio, tr.peso, tr.vida, tr.tasaDaño, tr.tiempo, tr.nivelCuartel);
         
         // Establecer id
         tropa.setId(id);
@@ -211,7 +211,7 @@ public class ClaseEdificio {
     // Valido solo para cuarteles
     // Devolver la primera tropa encolada
     // <editor-fold defaultstate="collapsed" desc="liberarCola">
-    public ClaseTropa liberarCola(){
+    public Tropa liberarCola(){
         return colaTropas.remove(0);
     }    
     //  </editor-fold>
@@ -219,7 +219,7 @@ public class ClaseEdificio {
     //------------------------------ ATACAR ---------------------------------
     // Valido solo para torres
     // <editor-fold defaultstate="collapsed" desc="Atacar">
-    public void atacar(ClaseTropa tropa){
+    public void atacar(Tropa tropa){
         
     }
     //  </editor-fold>
@@ -277,4 +277,9 @@ public class ClaseEdificio {
         return "";
     }     
     //  </editor-fold>
+
+    @Override
+    public String toString() {
+        return this.getNombre();
+    }
 }
