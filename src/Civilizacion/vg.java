@@ -13,4 +13,8 @@ public class vg {
     // Eventos futuros posibles
     public static final int EV_CULMINAR_EDIF = 0, EV_CULMINAR_TROPA = 1;
     
+    public static final int minOroAtaque = 500;
+    public static final int maxOroAtaque = 1500;
+    public static final int minElixirAtaque = 500;
+    public static final int maxElixirAtaque = 1500;
 }
