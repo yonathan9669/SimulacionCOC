@@ -3,18 +3,16 @@
  * and open the template in the editor.
  */
 package simulacion.grafica;
+import Civilizacion.*;
 
-/**
- *
- * @author gaby
- */
-public class RealizarAtaq extends javax.swing.JFrame {
+public class frameRealizarAtaque extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RealizarAtaq
-     */
-    public RealizarAtaq() {
+    public frameAldea copia;
+
+    public frameRealizarAtaque(frameAldea obj) {
         initComponents();
+        copia = obj;
+        
     }
 
     /**
@@ -43,7 +41,7 @@ public class RealizarAtaq extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
         jLabel1.setText("Realizar Ataque");
 
         jLabel3.setText("Arqueras a usar");

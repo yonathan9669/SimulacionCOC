@@ -12,15 +12,15 @@ import java.util.Date;
  *
  * @author gaby
  */
-public class aldeaGRAP extends javax.swing.JFrame {
+public class frameAldea extends javax.swing.JFrame {
 
     //------------------------------ VARIABLES DEL JUEGO ---------------------------------
     // <editor-fold desc="Variables">
     // edificios[] y tropas[]: Son los objetos generales de edificios y tropas.
-    private ClaseEdificio edificios[] = new ClaseEdificio[9];
-    private ClaseTropa tropas[] = new ClaseTropa[4];
+    private Edificio edificios[] = new Edificio[9];
+    private Tropa tropas[] = new Tropa[4];
     // aldea: Mi aldea
-    public ClaseAldea aldea;
+    public Aldea aldea;
     // hiloEstadoAldea: Actualiza el estado dela aldea (minas, recolectores, construcciones, etc)
     private Thread hiloEstadoAldea;
     // tiempoActual:
@@ -30,7 +30,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
     // LEF: Lista de Eventos Futuros
     ArrayList<EventoFuturo> LEF;
     
-    public aldeaGRAP() {
+    public frameAldea() {
         initComponents();
         
         this.jLabel3.setIcon(new ImageIcon(getClass(). 
@@ -92,7 +92,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         int tasaDaño = 8;
         int tiempo = 5;
         int nivelCuartel = 0;
-        tropas[tipo] = new ClaseTropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
+        tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
         
         // Arqueras
         tipo = vg.ARQUERA;
@@ -102,7 +102,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         tasaDaño = 7;
         tiempo = 6;
         nivelCuartel = 1;
-        tropas[tipo] = new ClaseTropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
+        tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
         
         // Gigantes
         tipo = vg.GIGANTE;
@@ -112,7 +112,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         tasaDaño = 11;
         tiempo = 10;
         nivelCuartel = 2;
-        tropas[tipo] = new ClaseTropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
+        tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
         
         // Duendes
         tipo = vg.DUENDE;
@@ -122,7 +122,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         tasaDaño = 11;
         tiempo = 7;
         nivelCuartel = 3;
-        tropas[tipo] = new ClaseTropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
+        tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
     }
     //</editor-fold>
     
@@ -140,14 +140,14 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejAy[2] = new Mejora(4000,30,1850,30000);
         mejAy[3] = new Mejora(25000,40,2100,40000);
         mejAy[4] = new Mejora(150000,50,2400,50000);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejAy);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejAy);
         
         // Choza de Constructor
         tipo = vg.CHOZA;
         tipoCompra = "elixir";
         Mejora mejCh[] = new Mejora[1];
         mejCh[0] = new Mejora(200,10,250,0);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejCh);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCh);
         
         // Campamento
         tipo = vg.CAMPAMENTO;
@@ -158,7 +158,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejCa[2] = new Mejora(10000,30,600,35);
         mejCa[3] = new Mejora(100000,40,700,40);
         mejCa[4] = new Mejora(250000,50,800,45);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejCa);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCa);
         
         // Cuartel
         tipo = vg.CUARTEL;
@@ -169,7 +169,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejCu[2] = new Mejora(2500,30,330,35);
         mejCu[3] = new Mejora(5000,40,370,40);
         mejCu[4] = new Mejora(1000,50,410,45);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejCu);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCu);
         
         // Mina de Oro
         tipo = vg.MINA;
@@ -180,7 +180,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejMi[2] = new Mejora(700,30,500,1500,8);
         mejMi[3] = new Mejora(1400,40,550,2500,16);
         mejMi[4] = new Mejora(3000,50,590,10000,32);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejMi);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMi);
         
         // Recolector de Elixir
         tipo = vg.RECOLECTOR;
@@ -191,7 +191,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejRe[2] = new Mejora(700,30,500,1500,8);
         mejRe[3] = new Mejora(1400,40,550,2500,16);
         mejRe[4] = new Mejora(3000,50,590,10000,32);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejRe);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejRe);
         
         // Torre de Arqueras
         tipo = vg.TORRE;
@@ -202,7 +202,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejTo[2] = new Mejora(5000,30,460,0,19);
         mejTo[3] = new Mejora(20000,40,500,0,25);
         mejTo[4] = new Mejora(80000,50,540,0,30);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejTo);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejTo);
         
         // Cañon
         tipo = vg.CAÑON;
@@ -213,7 +213,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejCañ[2] = new Mejora(4000,30,520,0,15);
         mejCañ[3] = new Mejora(16000,40,570,0,19);
         mejCañ[4] = new Mejora(50000,50,620,0,25);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejCañ);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCañ);
         
         // Mortero
         tipo = vg.MORTERO;
@@ -224,17 +224,17 @@ public class aldeaGRAP extends javax.swing.JFrame {
         mejMo[2] = new Mejora(120000,30,500,0,25);
         mejMo[3] = new Mejora(400000,40,550,0,30);
         mejMo[4] = new Mejora(800000,50,600,0,35);
-        edificios[tipo] = new ClaseEdificio(tipo, tipoCompra, mejMo);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMo);
     }
     //  </editor-fold>
     
     //------------------------------ ALDEAPPAL ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="aldeappal">
-    void aldeappal(interfaz1 obj){
+    void aldeappal(frameInicio obj){
         //--------------- Crear aldea ---------------
         double orInicial = 500;
         double elInicial = 500;
-        aldea = new ClaseAldea(orInicial,elInicial);
+        aldea = new Aldea(orInicial,elInicial);
         
         //--------------- Iniciar Labels ---------------
         this.jTextFieldChoza.setText(obj.choza.getText());
@@ -329,7 +329,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
         boolean puedeCrearTropas = false;
         boolean puedeRecogerRecursos = false;
         //--------------- Recorrer edificios ---------------
-        for(ClaseEdificio e: aldea.edificios){
+        for(Edificio e: aldea.edificios){
             
             // Actualizar minas y recolectores
             if(e.generadorRecursos() && e.estaHabilitado()){
@@ -377,9 +377,9 @@ public class aldeaGRAP extends javax.swing.JFrame {
                 else if(LEF.get(i).tipo == vg.EV_CULMINAR_TROPA){
                     boolean romperCiclo = false;
                     // Recorrer edificio para buscar tropa en colaTropas
-                    for(ClaseEdificio e: aldea.edificios){
+                    for(Edificio e: aldea.edificios){
                         // Buscar tropa
-                        for(ClaseTropa t: e.colaTropas){
+                        for(Tropa t: e.colaTropas){
                             if(t.id == LEF.get(i).id){
                                 culminarTropa(e, t); // En este evento se agrega la tropa a la aldea
                                 e.colaTropas.remove(t);// Remover tropa de colaTropas en edificio
@@ -437,7 +437,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
     
     //------------------------------ MEJORAR EDIFICIOS ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="MejorarEdificio">
-    public void MejorarEdificio(ClaseEdificio edificio){
+    public void MejorarEdificio(Edificio edificio){
         if(edificio.tipoCompra.equals("oro")){
             if(aldea.oro >= edificio.precioCompraMejora()){
                 if(aldea.constructoresLibres() > 0){
@@ -475,7 +475,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
     
     //------------------------------ COMPRAR TROPA ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="ComprarTropa">
-    void ComprarTropa(int tipoTropa, ClaseEdificio edificio){
+    void ComprarTropa(int tipoTropa, Edificio edificio){
         if(edificio.generaTropas()){
             if(edificio.disponible(tropas[tipoTropa])){
                 if(aldea.elixir >= tropas[tipoTropa].precio){ // Este faltaba
@@ -502,7 +502,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
     
     //------------------------------ CULMINAR EDIFICIO ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="CulminarEdificio">
-    private void culminarEdificio(ClaseEdificio edificio){
+    private void culminarEdificio(Edificio edificio){
         // Si el edificio es una choza, liberar constructor
         if(edificio.tipo == vg.CHOZA)
             edificio.liberarConstructor();
@@ -518,7 +518,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
     
     //------------------------------ CULMINAR TROPA ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="CulminarTropa">
-    private void culminarTropa(ClaseEdificio edificio, ClaseTropa tropa){
+    private void culminarTropa(Edificio edificio, Tropa tropa){
         System.out.println("Culminar tropa "+tropa.id);
         // Agregar tropa a la aldea
         aldea.habilitarTropa(tropa);
@@ -599,7 +599,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
     
     //------------------------------ RECOGER RECURSOS ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="RecogerRecursos">
-    private void RecogerRecursos(ClaseEdificio edificio){
+    private void RecogerRecursos(Edificio edificio){
         // Si es generarod re recursos y esta habilitado
         if(edificio.generadorRecursos() && edificio.estaHabilitado()){
             double cantidad = edificio.recogerRecursos();
@@ -986,7 +986,7 @@ public class aldeaGRAP extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCrearEdificioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearEdificioActionPerformed
-     Edificios obj = new Edificios(this);
+     frameComprarEdificios obj = new frameComprarEdificios(this);
     
      obj.show();
      
@@ -995,28 +995,28 @@ public class aldeaGRAP extends javax.swing.JFrame {
 
     private void jButtonCrearTropaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearTropaActionPerformed
 
-        Tropa obj = new Tropa(this);
+        frameComprarTropas obj = new frameComprarTropas(this);
         obj.show();
 
     }//GEN-LAST:event_jButtonCrearTropaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
       
-        RealizarAtaq obj = new RealizarAtaq();
+        frameRealizarAtaque obj = new frameRealizarAtaque(this);
         obj.show();
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonMejorarEdificioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMejorarEdificioActionPerformed
       
-        mejorarEdificio obj = new mejorarEdificio(this);
+        frameMejorarEdificios obj = new frameMejorarEdificios(this);
         obj.show();
         
     }//GEN-LAST:event_jButtonMejorarEdificioActionPerformed
 
 private void jButtonRecogerRecursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecogerRecursosActionPerformed
         // Recoger Recursos
-        for(ClaseEdificio e: aldea.edificios){
+        for(Edificio e: aldea.edificios){
             RecogerRecursos(e);
         }
         // Mostrar Recursos

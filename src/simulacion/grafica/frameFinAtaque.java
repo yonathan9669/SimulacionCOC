@@ -10,12 +10,12 @@ import javax.swing.ImageIcon;
  *
  * @author gaby
  */
-public class FIN_ATAQUE extends javax.swing.JFrame {
+public class frameFinAtaque extends javax.swing.JFrame {
 
     /**
      * Creates new form FIN_ATAQUE
      */
-    public FIN_ATAQUE() {
+    public frameFinAtaque() {
         initComponents();
          this.jLabel6.setIcon(new ImageIcon(getClass(). 
         getResource("logo.png")));
@@ -41,13 +41,13 @@ public class FIN_ATAQUE extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -57,7 +57,7 @@ public class FIN_ATAQUE extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new FIN_ATAQUE().setVisible(true);
+                new frameFinAtaque().setVisible(true);
             }
         });
     }
@@ -83,7 +83,7 @@ public class FIN_ATAQUE extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
         jLabel1.setText("Fin de Ataque");
 
         jLabel2.setText("Tiempo Transcurrido");
