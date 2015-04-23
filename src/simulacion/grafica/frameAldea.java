@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import Civilizacion.*;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 /**
  *
  * @author gaby
@@ -135,11 +136,11 @@ public class frameAldea extends javax.swing.JFrame {
         String tipoCompra = "oro";
         Mejora mejAy[] = new Mejora[vg.NIVELES];
         //precio,tiempo(segundos),vida,capacidad,tasa
-        mejAy[0] = new Mejora(0,10,1500,10000);
-        mejAy[1] = new Mejora(1000,20,1600,20000);
-        mejAy[2] = new Mejora(4000,30,1850,30000);
-        mejAy[3] = new Mejora(25000,40,2100,40000);
-        mejAy[4] = new Mejora(150000,50,2400,50000);
+        mejAy[0] = new Mejora(1000,10,1500,10000);
+        mejAy[1] = new Mejora(4000,20,1600,20000);
+        mejAy[2] = new Mejora(8000,30,1850,30000);
+        mejAy[3] = new Mejora(15000,40,2100,40000);
+        mejAy[4] = new Mejora(250000,50,2400,50000);
         edificios[tipo] = new Edificio(tipo, tipoCompra, mejAy);
         
         // Choza de Constructor
@@ -347,6 +348,7 @@ public class frameAldea extends javax.swing.JFrame {
                 puedeCrearTropas = true;
             
         }
+        
         // Habilitar/deshabilitar boton crear tropas
         jButtonCrearTropa.setEnabled(puedeCrearTropas);
         
@@ -488,7 +490,7 @@ public class frameAldea extends javax.swing.JFrame {
                             // Construir trpá y obtener evento futuro de culminacion
                             // Agregar evento a la LEF
                             LEF.add(edificio.construirTropa(tiempo, tropas[tipoTropa],aldea.getIdTropas()));
-                            jTextFieldOro.setText(String.valueOf((int)aldea.elixir));
+                            jTextFieldElixir.setText(String.valueOf((int)aldea.elixir));
 
                             // Aumentar tamaño de poblacion
                             aldea.poblacion += tropas[tipoTropa].peso;
@@ -510,9 +512,17 @@ public class frameAldea extends javax.swing.JFrame {
         edificio.habilitar();
         // Liberar constructor que estaba creando/modificando el edificio
         aldea.liberarConstructor();
-        // Si el edificio es nuevo, sumarlo a label respectivo
-        if(edificio.nivel == 0)
+        // Verificar si el edificio es nuevo o estaba mejorando
+        if(edificio.nivel == 0){
+            // Sumar edificio a su label respectivo
             sumarEdificio(edificio.tipo);
+            // Mensaje de construccion finalizada
+            JOptionPane.showMessageDialog(this, "Construccion de "+edificio.getNombre()+" finalizada", "", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            // Mensaje de mejora finalizada
+            JOptionPane.showMessageDialog(this, "Mejora de "+edificio.getNombre()+" a nivel "+String.valueOf(edificio.nivel+1) +" finalizada", "", JOptionPane.WARNING_MESSAGE);
+        }
     }     
     //  </editor-fold>
     

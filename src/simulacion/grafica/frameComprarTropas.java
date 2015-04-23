@@ -1,14 +1,17 @@
 package simulacion.grafica;
 import Civilizacion.*;
+import javax.swing.JOptionPane;
 
 public class frameComprarTropas extends javax.swing.JFrame {
 
     public frameAldea copia;
     public itemComprarTropa seleccionado;
+    public double elixirAldea;
     
     public frameComprarTropas(frameAldea obj) {
-        copia = obj;
         initComponents();
+        copia = obj;
+        elixirAldea = copia.aldea.elixir;
         for(Edificio e: obj.aldea.edificios){
             if(e.estaHabilitado() && (e.tipo==vg.CUARTEL)){
                 jComboBox3.addItem(new itemComprarTropa(e.id,e.nivel,e.colaTropas,"Cuartel"));
@@ -288,19 +291,47 @@ private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_jComboBox3ActionPerformed
 
 private void jButtonBarbaroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBarbaroActionPerformed
-    copia.ComprarTropa(vg.BARBARO, copia.aldea.edificios.get(seleccionado.id));
+    if(elixirAldea >= 25){
+        copia.ComprarTropa(vg.BARBARO, copia.aldea.edificios.get(seleccionado.id));
+        JOptionPane.showMessageDialog(this, "Ha empezado a entrenar un barbaro", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
+    }
+    else{
+        JOptionPane.showMessageDialog(this, "Necesita 25 de elixir para entrenar a la tropa", "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 }//GEN-LAST:event_jButtonBarbaroActionPerformed
 
 private void jButtonArqueraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonArqueraActionPerformed
-    copia.ComprarTropa(vg.ARQUERA, copia.aldea.edificios.get(seleccionado.id));
+    if(elixirAldea >= 50){
+        copia.ComprarTropa(vg.ARQUERA, copia.aldea.edificios.get(seleccionado.id));
+        JOptionPane.showMessageDialog(this, "Ha empezado a entrenar una arquera", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
+    }
+    else{
+        JOptionPane.showMessageDialog(this, "Necesita 50 de elixir para entrenar a la tropa", "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 }//GEN-LAST:event_jButtonArqueraActionPerformed
 
 private void jButtonGiganteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGiganteActionPerformed
-    copia.ComprarTropa(vg.GIGANTE, copia.aldea.edificios.get(seleccionado.id));
+    if(elixirAldea >= 250){
+        copia.ComprarTropa(vg.GIGANTE, copia.aldea.edificios.get(seleccionado.id));
+        JOptionPane.showMessageDialog(this, "Ha empezado a entrenar un gigante", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
+    }
+    else{
+        JOptionPane.showMessageDialog(this, "Necesita 250 de elixir para entrenar a la tropa", "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 }//GEN-LAST:event_jButtonGiganteActionPerformed
 
 private void jButtonDuendeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDuendeActionPerformed
-    copia.ComprarTropa(vg.DUENDE, copia.aldea.edificios.get(seleccionado.id));
+    if(elixirAldea >= 25){
+        copia.ComprarTropa(vg.DUENDE, copia.aldea.edificios.get(seleccionado.id));
+        JOptionPane.showMessageDialog(this, "Ha empezado a entrenar un duende", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
+    }
+    else{
+        JOptionPane.showMessageDialog(this, "Necesita 25 de elixir para entrenar a la tropa", "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
 }//GEN-LAST:event_jButtonDuendeActionPerformed
 
     /**

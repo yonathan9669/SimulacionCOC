@@ -237,12 +237,12 @@ public class frameComprarEdificios extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
     
 private void jButtonElixirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonElixirActionPerformed
-    copia.ComprarEdificio(vg.RECOLECTOR);
-    System.out.println(copia.aldea.oro);
     if(copia.aldea.oro<150.0){
-     JOptionPane.showMessageDialog(this, "Necesita 150 de oro para comprarlo", "ERROR", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Necesita 150 de oro para comprarlo", "ERROR", JOptionPane.ERROR_MESSAGE);
     }else{
+        copia.ComprarEdificio(vg.RECOLECTOR);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir un recolector de elixir", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
     }
      
 }//GEN-LAST:event_jButtonElixirActionPerformed
@@ -253,6 +253,7 @@ private void jButtonMinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     }else{
         copia.ComprarEdificio(vg.MINA);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir una mina de oro", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
     }    
 }//GEN-LAST:event_jButtonMinaActionPerformed
 
@@ -262,6 +263,7 @@ private void jButtonChozaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }else{
         copia.ComprarEdificio(vg.CHOZA);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir una choza de constructor", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
     }
 }//GEN-LAST:event_jButtonChozaActionPerformed
  
@@ -271,6 +273,7 @@ private void jButtonCuartelActionPerformed(java.awt.event.ActionEvent evt) {//GE
     }else{
         copia.ComprarEdificio(vg.CUARTEL);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir un cuartel", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
     }
 }//GEN-LAST:event_jButtonCuartelActionPerformed
   
@@ -280,6 +283,7 @@ private void jButtonCañonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }else{
         copia.ComprarEdificio(vg.CAÑON);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir un cañon", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
     }
 }//GEN-LAST:event_jButtonCañonActionPerformed
 
@@ -289,6 +293,7 @@ private void jButtonTorreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }else{
         copia.ComprarEdificio(vg.TORRE);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir una torre de arqueras", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
     }
 }//GEN-LAST:event_jButtonTorreActionPerformed
 
@@ -298,6 +303,7 @@ private void jButtonMorteroActionPerformed(java.awt.event.ActionEvent evt) {//GE
     }else{
         copia.ComprarEdificio(vg.MORTERO);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir un mortero", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
     }
 }//GEN-LAST:event_jButtonMorteroActionPerformed
 
@@ -307,6 +313,7 @@ private void jButtonCampamentoActionPerformed(java.awt.event.ActionEvent evt) {/
     }else{
         copia.ComprarEdificio(vg.CAMPAMENTO);
         JOptionPane.showMessageDialog(this, "Ha empezado a construir un campamento", "", JOptionPane.WARNING_MESSAGE);
+        this.setVisible(false);
      }
 }//GEN-LAST:event_jButtonCampamentoActionPerformed
     
