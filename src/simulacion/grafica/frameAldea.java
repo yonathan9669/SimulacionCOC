@@ -6,9 +6,12 @@ package simulacion.grafica;
 
 import javax.swing.ImageIcon;
 import Civilizacion.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import javax.swing.JOptionPane;
+import simulacion.util.Ataque;
 /**
  *
  * @author gaby
@@ -22,69 +25,72 @@ public class frameAldea extends javax.swing.JFrame {
     private Tropa tropas[] = new Tropa[4];
     // aldea: Mi aldea
     public Aldea aldea;
+    public Ataque ataque;
     // hiloEstadoAldea: Actualiza el estado dela aldea (minas, recolectores, construcciones, etc)
     private Thread hiloEstadoAldea;
     // tiempoActual:
     private Date tiempoActual;
+    private Random rand;
     //  </editor-fold>
     private final long MILISEGS_POR_DIA = 24 * 60 * 60 * 1000; //Milisegundos al día 
     // LEF: Lista de Eventos Futuros
     ArrayList<EventoFuturo> LEF;
-    
+
     public frameAldea() {
         initComponents();
+        this.rand = new Random(System.currentTimeMillis());
         
-        this.jLabel3.setIcon(new ImageIcon(getClass(). 
-        getResource("logo.png")));
-        
-         this.jLabel24.setIcon(new ImageIcon(getClass(). 
-        getResource("ayuntamiento.png")));
-        
-         this.jLabel14.setIcon(new ImageIcon(getClass(). 
-        getResource("Barbarian.png")));
-         
-         this.jLabel15.setIcon(new ImageIcon(getClass(). 
-        getResource("Archer.png")));
-         
-         this.jLabel16.setIcon(new ImageIcon(getClass(). 
-        getResource("Giant.png")));
-         
-         this.jLabel17.setIcon(new ImageIcon(getClass(). 
-        getResource("Goblin.png")));
-        
-         this.jLabel5.setIcon(new ImageIcon(getClass(). 
-        getResource("Cabaconstructor.png")));
-         
-         this.jLabel6.setIcon(new ImageIcon(getClass(). 
-        getResource("Minaoro.png")));
-         
-         this.jLabel7.setIcon(new ImageIcon(getClass(). 
-        getResource("RecolorectorElixir.png")));
-         
-         this.jLabel8.setIcon(new ImageIcon(getClass(). 
-        getResource("ArmyCamp.png")));
-         
-         this.jLabel9.setIcon(new ImageIcon(getClass(). 
-        getResource("Canon.png")));
-         
-         this.jLabel10.setIcon(new ImageIcon(getClass(). 
-        getResource("mortero.png")));
-         
-         this.jLabel11.setIcon(new ImageIcon(getClass(). 
-        getResource("ArcherTower.png")));
-         
-         this.jLabel12.setIcon(new ImageIcon(getClass(). 
-        getResource("barracks.png")));
-         
+        this.jLabel3.setIcon(new ImageIcon(getClass().
+                getResource("logo.png")));
+
+        this.jLabel24.setIcon(new ImageIcon(getClass().
+                getResource("ayuntamiento.png")));
+
+        this.jLabel14.setIcon(new ImageIcon(getClass().
+                getResource("Barbarian.png")));
+
+        this.jLabel15.setIcon(new ImageIcon(getClass().
+                getResource("Archer.png")));
+
+        this.jLabel16.setIcon(new ImageIcon(getClass().
+                getResource("Giant.png")));
+
+        this.jLabel17.setIcon(new ImageIcon(getClass().
+                getResource("Goblin.png")));
+
+        this.jLabel5.setIcon(new ImageIcon(getClass().
+                getResource("Cabaconstructor.png")));
+
+        this.jLabel6.setIcon(new ImageIcon(getClass().
+                getResource("Minaoro.png")));
+
+        this.jLabel7.setIcon(new ImageIcon(getClass().
+                getResource("RecolorectorElixir.png")));
+
+        this.jLabel8.setIcon(new ImageIcon(getClass().
+                getResource("ArmyCamp.png")));
+
+        this.jLabel9.setIcon(new ImageIcon(getClass().
+                getResource("Canon.png")));
+
+        this.jLabel10.setIcon(new ImageIcon(getClass().
+                getResource("mortero.png")));
+
+        this.jLabel11.setIcon(new ImageIcon(getClass().
+                getResource("ArcherTower.png")));
+
+        this.jLabel12.setIcon(new ImageIcon(getClass().
+                getResource("barracks.png")));
+
         iniciarObjTropas();
-        iniciarObjEdificios();        
-         
+        iniciarObjEdificios();
+
     }
-    
+
     //------------------------------ INICIAR OBJETOS TROPAS ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="iniciarObjTropas">
-    private void iniciarObjTropas(){
-        
+    private void iniciarObjTropas() {
+
         // Barbaros
         int tipo = vg.BARBARO;
         int precio = 25;
@@ -94,7 +100,7 @@ public class frameAldea extends javax.swing.JFrame {
         int tiempo = 5;
         int nivelCuartel = 0;
         tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
-        
+
         // Arqueras
         tipo = vg.ARQUERA;
         precio = 50;
@@ -104,7 +110,7 @@ public class frameAldea extends javax.swing.JFrame {
         tiempo = 6;
         nivelCuartel = 1;
         tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
-        
+
         // Gigantes
         tipo = vg.GIGANTE;
         precio = 250;
@@ -114,7 +120,7 @@ public class frameAldea extends javax.swing.JFrame {
         tiempo = 10;
         nivelCuartel = 2;
         tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
-        
+
         // Duendes
         tipo = vg.DUENDE;
         precio = 25;
@@ -126,13 +132,14 @@ public class frameAldea extends javax.swing.JFrame {
         tropas[tipo] = new Tropa(tipo, precio, peso, vida, tasaDaño, tiempo, nivelCuartel);
     }
     //</editor-fold>
-    
+
     //------------------------------ INICIAR OBJETOS EDIFICIOS ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="iniciarObjEdificios">
-    private void iniciarObjEdificios(){
-        
+    private void iniciarObjEdificios() {
+
         // Ayuntamiento
         int tipo = vg.AYUNTAMIENTO;
+        Point posicion = new Point(-1, -1);
         String tipoCompra = "oro";
         Mejora mejAy[] = new Mejora[vg.NIVELES];
         //precio,tiempo(segundos),vida,capacidad,tasa
@@ -141,102 +148,102 @@ public class frameAldea extends javax.swing.JFrame {
         mejAy[2] = new Mejora(8000,30,1850,30000);
         mejAy[3] = new Mejora(15000,40,2100,40000);
         mejAy[4] = new Mejora(250000,50,2400,50000);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejAy);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejAy, posicion);
         
         // Choza de Constructor
         tipo = vg.CHOZA;
         tipoCompra = "elixir";
         Mejora mejCh[] = new Mejora[1];
-        mejCh[0] = new Mejora(200,10,250,0);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCh);
-        
+        mejCh[0] = new Mejora(200, 10, 250, 0);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCh, posicion);
+
         // Campamento
         tipo = vg.CAMPAMENTO;
         tipoCompra = "elixir";
         Mejora mejCa[] = new Mejora[vg.NIVELES];
-        mejCa[0] = new Mejora(250,10,400,20);
-        mejCa[1] = new Mejora(2500,20,500,30);
-        mejCa[2] = new Mejora(10000,30,600,35);
-        mejCa[3] = new Mejora(100000,40,700,40);
-        mejCa[4] = new Mejora(250000,50,800,45);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCa);
-        
+        mejCa[0] = new Mejora(250, 10, 400, 20);
+        mejCa[1] = new Mejora(2500, 20, 500, 30);
+        mejCa[2] = new Mejora(10000, 30, 600, 35);
+        mejCa[3] = new Mejora(100000, 40, 700, 40);
+        mejCa[4] = new Mejora(250000, 50, 800, 45);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCa, posicion);
+
         // Cuartel
         tipo = vg.CUARTEL;
         tipoCompra = "elixir";
         Mejora mejCu[] = new Mejora[vg.NIVELES];
-        mejCu[0] = new Mejora(200,10,250,20);
-        mejCu[1] = new Mejora(1000,20,290,30);
-        mejCu[2] = new Mejora(2500,30,330,35);
-        mejCu[3] = new Mejora(5000,40,370,40);
-        mejCu[4] = new Mejora(1000,50,410,45);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCu);
-        
+        mejCu[0] = new Mejora(200, 10, 250, 20);
+        mejCu[1] = new Mejora(1000, 20, 290, 30);
+        mejCu[2] = new Mejora(2500, 30, 330, 35);
+        mejCu[3] = new Mejora(5000, 40, 370, 40);
+        mejCu[4] = new Mejora(1000, 50, 410, 45);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCu, posicion);
+
         // Mina de Oro
         tipo = vg.MINA;
         tipoCompra = "elixir";
         Mejora mejMi[] = new Mejora[vg.NIVELES];
-        mejMi[0] = new Mejora(150,10,400,50,2);
-        mejMi[1] = new Mejora(300,20,450,1000,4);
-        mejMi[2] = new Mejora(700,30,500,1500,8);
-        mejMi[3] = new Mejora(1400,40,550,2500,16);
-        mejMi[4] = new Mejora(3000,50,590,10000,32);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMi);
-        
+        mejMi[0] = new Mejora(150, 10, 400, 50, 2);
+        mejMi[1] = new Mejora(300, 20, 450, 1000, 4);
+        mejMi[2] = new Mejora(700, 30, 500, 1500, 8);
+        mejMi[3] = new Mejora(1400, 40, 550, 2500, 16);
+        mejMi[4] = new Mejora(3000, 50, 590, 10000, 32);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMi, posicion);
+
         // Recolector de Elixir
         tipo = vg.RECOLECTOR;
         tipoCompra = "oro";
         Mejora mejRe[] = new Mejora[vg.NIVELES];
-        mejRe[0] = new Mejora(150,10,400,50,2);
-        mejRe[1] = new Mejora(300,20,450,1000,4);
-        mejRe[2] = new Mejora(700,30,500,1500,8);
-        mejRe[3] = new Mejora(1400,40,550,2500,16);
-        mejRe[4] = new Mejora(3000,50,590,10000,32);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejRe);
-        
+        mejRe[0] = new Mejora(150, 10, 400, 50, 2);
+        mejRe[1] = new Mejora(300, 20, 450, 1000, 4);
+        mejRe[2] = new Mejora(700, 30, 500, 1500, 8);
+        mejRe[3] = new Mejora(1400, 40, 550, 2500, 16);
+        mejRe[4] = new Mejora(3000, 50, 590, 10000, 32);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejRe, posicion);
+
         // Torre de Arqueras
         tipo = vg.TORRE;
         tipoCompra = "oro";
         Mejora mejTo[] = new Mejora[vg.NIVELES];
-        mejTo[0] = new Mejora(1000,10,380,0,11);
-        mejTo[1] = new Mejora(2000,20,420,0,15);
-        mejTo[2] = new Mejora(5000,30,460,0,19);
-        mejTo[3] = new Mejora(20000,40,500,0,25);
-        mejTo[4] = new Mejora(80000,50,540,0,30);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejTo);
-        
+        mejTo[4] = new Mejora(1000, 10, 380, 0, 11);
+        mejTo[1] = new Mejora(2000, 20, 420, 0, 15);
+        mejTo[2] = new Mejora(5000, 30, 460, 0, 19);
+        mejTo[3] = new Mejora(20000, 40, 500, 0, 25);
+        mejTo[0] = new Mejora(80000, 50, 540, 0, 30);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejTo, posicion);
+
         // Cañon
         tipo = vg.CAÑON;
         tipoCompra = "oro";
         Mejora mejCañ[] = new Mejora[vg.NIVELES];
-        mejCañ[0] = new Mejora(250,10,420,0,9);
-        mejCañ[1] = new Mejora(1000,20,470,0,11);
-        mejCañ[2] = new Mejora(4000,30,520,0,15);
-        mejCañ[3] = new Mejora(16000,40,570,0,19);
-        mejCañ[4] = new Mejora(50000,50,620,0,25);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCañ);
-        
+        mejCañ[4] = new Mejora(250, 10, 420, 0, 9);
+        mejCañ[1] = new Mejora(1000, 20, 470, 0, 11);
+        mejCañ[2] = new Mejora(4000, 30, 520, 0, 15);
+        mejCañ[3] = new Mejora(16000, 40, 570, 0, 19);
+        mejCañ[0] = new Mejora(50000, 50, 620, 0, 25);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCañ, posicion);
+
         // Mortero
         tipo = vg.MORTERO;
         tipoCompra = "oro";
         Mejora mejMo[] = new Mejora[vg.NIVELES];
-        mejMo[0] = new Mejora(8000,10,400,0,15);
-        mejMo[1] = new Mejora(32000,20,450,0,19);
-        mejMo[2] = new Mejora(120000,30,500,0,25);
-        mejMo[3] = new Mejora(400000,40,550,0,30);
-        mejMo[4] = new Mejora(800000,50,600,0,35);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMo);
+        mejMo[4] = new Mejora(8000, 10, 400, 0, 15);
+        mejMo[1] = new Mejora(32000, 20, 450, 0, 19);
+        mejMo[2] = new Mejora(120000, 30, 500, 0, 25);
+        mejMo[3] = new Mejora(400000, 40, 550, 0, 30);
+        mejMo[0] = new Mejora(800000, 50, 600, 0, 35);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMo, posicion);
     }
     //  </editor-fold>
-    
+
     //------------------------------ ALDEAPPAL ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="aldeappal">
-    void aldeappal(frameInicio obj){
+    void aldeappal(frameInicio obj) {
         //--------------- Crear aldea ---------------
         double orInicial = 500;
         double elInicial = 500;
-        aldea = new Aldea(orInicial,elInicial);
-        
+        aldea = new Aldea(orInicial, elInicial);
+
         //--------------- Iniciar Labels ---------------
         this.jTextFieldChoza.setText(obj.choza.getText());
         this.jTextFieldMina.setText(obj.minaORO.getText());
@@ -253,56 +260,56 @@ public class frameAldea extends javax.swing.JFrame {
         this.jTextFieldDuende.setText("0");
         this.jTextFieldOroMina.setText("0");
         this.jTextFieldElixRec.setText("0");
-        this.jTextFieldOro.setText(String.valueOf((int)orInicial));
-        this.jTextFieldElixir.setText(String.valueOf((int)elInicial));
-    
+        this.jTextFieldOro.setText(String.valueOf((int) orInicial));
+        this.jTextFieldElixir.setText(String.valueOf((int) elInicial));
+
         //--------------- Iniciar LEF ---------------
         LEF = new ArrayList<>();
-        
+
         //--------------- Crear edificios ---------------
         // Crear ayuntamiento:
-        for(int i=0;i<Integer.parseInt(obj.ayunta.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.ayunta.getText()); i++) {
             aldea.crearEdificio(edificios[vg.AYUNTAMIENTO]);
         }
         // Crear chozas de constructor:
-        for(int i=0;i<Integer.parseInt(obj.choza.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.choza.getText()); i++) {
             aldea.crearEdificio(edificios[vg.CHOZA]);
         }
         // Crear campamentos:
-        for(int i=0;i<Integer.parseInt(obj.campamento.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.campamento.getText()); i++) {
             aldea.crearEdificio(edificios[vg.CAMPAMENTO]);
         }
         // Crear cuarteles:
-        for(int i=0;i<Integer.parseInt(obj.cuartel.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.cuartel.getText()); i++) {
             aldea.crearEdificio(edificios[vg.CUARTEL]);
         }
         // Crear minas de oro:
-        for(int i=0;i<Integer.parseInt(obj.minaORO.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.minaORO.getText()); i++) {
             aldea.crearEdificio(edificios[vg.MINA]);
         }
         // Crear recolectores de elixir:
-        for(int i=0;i<Integer.parseInt(obj.rec_elx.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.rec_elx.getText()); i++) {
             aldea.crearEdificio(edificios[vg.RECOLECTOR]);
         }
         // Crear torres de arqueras:
-        for(int i=0;i<Integer.parseInt(obj.torre_arq.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.torre_arq.getText()); i++) {
             aldea.crearEdificio(edificios[vg.TORRE]);
         }
         // Crear cañones:
-        for(int i=0;i<Integer.parseInt(obj.canon.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.canon.getText()); i++) {
             aldea.crearEdificio(edificios[vg.CAÑON]);
         }
         // Crear morteros:
-        for(int i=0;i<Integer.parseInt(obj.mortero.getText());i++){
+        for (int i = 0; i < Integer.parseInt(obj.mortero.getText()); i++) {
             aldea.crearEdificio(edificios[vg.MORTERO]);
         }
-      
+
         tiempoActual = new Date();
-        
+
         //--------------- Iniciar Hilo General del Estado de la Aldea ---------------
         hiloEstadoAldea = new Thread() {
             public void run() {
-                while (true){
+                while (true) {
                     actualizarEstado();
                     try {
                         Thread.sleep(200);
@@ -313,76 +320,75 @@ public class frameAldea extends javax.swing.JFrame {
             }
         };
         hiloEstadoAldea.start();
-        
+
     }
     //  </editor-fold>
-    
+
     //------------------------------ ACTUALIZAR ESTADO ---------------------------------
     // Actualizar el estado de la aldea.
     // <editor-fold defaultstate="collapsed" desc="actualizarEstado">
-    private void actualizarEstado(){
+    private void actualizarEstado() {
         //--------------- Calcular tiempo transcurrido ---------------
         Date tiempoAnterior = tiempoActual;
         tiempoActual = new Date();
         double transcurridoAux = (tiempoActual.getTime() - tiempoAnterior.getTime());
-        double transcurrido = transcurridoAux/1000.0;
-        
+        double transcurrido = transcurridoAux / 1000.0;
+
         boolean puedeCrearTropas = false;
         boolean puedeRecogerRecursos = false;
         //--------------- Recorrer edificios ---------------
-        for(Edificio e: aldea.edificios){
-            
+        for (Edificio e : aldea.edificios) {
+
             // Actualizar minas y recolectores
-            if(e.generadorRecursos() && e.estaHabilitado()){
+            if (e.generadorRecursos() && e.estaHabilitado()) {
                 e.actualizarRecursos(transcurrido);
                 puedeRecogerRecursos = true;
-                if(e.tipo == vg.MINA){
+                if (e.tipo == vg.MINA) {
                     jTextFieldOroMina.setText(String.valueOf(e.cantidadRecurso));
-                }
-                else
+                } else {
                     jTextFieldElixRec.setText(String.valueOf(e.cantidadRecurso));
+                }
             }
-            
+
             // Verificar si hay un cuartel habilitado para poder crear tropas
-            if(e.tipo == vg.CUARTEL && e.habilitado)
+            if (e.tipo == vg.CUARTEL && e.habilitado) {
                 puedeCrearTropas = true;
-            
+            }
+
         }
         
         // Habilitar/deshabilitar boton crear tropas
         jButtonCrearTropa.setEnabled(puedeCrearTropas);
-        
+
         // Habilitar/deshabilitar boton recoger recursos
         jButtonRecogerRecursos.setEnabled(puedeRecogerRecursos);
-        
+
         // Verificar si hay constuctores libres para permitir la creacion de tropas
-        if(aldea.constructoresLibres() > 0){
+        if (aldea.constructoresLibres() > 0) {
             jButtonCrearEdificio.setEnabled(true);
             jButtonMejorarEdificio.setEnabled(true);
-        }
-        else{
+        } else {
             jButtonCrearEdificio.setEnabled(false);
             jButtonMejorarEdificio.setEnabled(false);
         }
-            
+
         //--------------- Revisar LEF ---------------
         // Recorrer en sentido inverso
-        for(int i=LEF.size()-1;i>=0;i--){
+        for (int i = LEF.size() - 1; i >= 0; i--) {
             Date tiempoActual = new Date();
             // Si ocurre un evento
-            if(tiempoActual.after(LEF.get(i).tiempo)){
+            if (tiempoActual.after(LEF.get(i).tiempo)) {
                 // Si el evento es culminar edificio
-                if(LEF.get(i).tipo == vg.EV_CULMINAR_EDIF){
+                if (LEF.get(i).tipo == vg.EV_CULMINAR_EDIF) {
                     culminarEdificio(aldea.edificios.get(LEF.get(i).id));
                     LEF.remove(i); // Remover evento futuro de la lista
-                }
-                else if(LEF.get(i).tipo == vg.EV_CULMINAR_TROPA){
+                } else if (LEF.get(i).tipo == vg.EV_CULMINAR_TROPA) {
                     boolean romperCiclo = false;
                     // Recorrer edificio para buscar tropa en colaTropas
-                    for(Edificio e: aldea.edificios){
+                    for (Edificio e : aldea.edificios) {
                         // Buscar tropa
-                        for(Tropa t: e.colaTropas){
-                            if(t.id == LEF.get(i).id){
+                        for (Tropa t : e.colaTropas) {
+                            if (t.id == LEF.get(i).id) {
                                 culminarTropa(e, t); // En este evento se agrega la tropa a la aldea
                                 e.colaTropas.remove(t);// Remover tropa de colaTropas en edificio
                                 LEF.remove(i); // Remover evento futuro de la lista
@@ -390,22 +396,23 @@ public class frameAldea extends javax.swing.JFrame {
                                 break;
                             }
                         }
-                        if(romperCiclo)
+                        if (romperCiclo) {
                             break;
+                        }
                     }
                 }
             }
         }
     }
     //  </editor-fold>
-    
+
     //------------------------------ COMPRAR EDIFICIO ---------------------------------
     // Verificar si se puede comprar el edificio seleccionado y comprarlo.
     // <editor-fold defaultstate="collapsed" desc="ComprarEdificio">
-    public void ComprarEdificio(int tipo){
-        if(edificios[tipo].tipoCompra.equals("oro")){
-            if(aldea.oro >= edificios[tipo].precioCompraMejora()){
-                if(aldea.constructoresLibres() > 0){
+    public void ComprarEdificio(int tipo) {
+        if (edificios[tipo].tipoCompra.equals("oro")) {
+            if (aldea.oro >= edificios[tipo].precioCompraMejora()) {
+                if (aldea.constructoresLibres() > 0) {
                     // Bloquear constructor
                     aldea.bloquearConstructor();
                     // Obtener tiempo actual
@@ -415,12 +422,12 @@ public class frameAldea extends javax.swing.JFrame {
                     // Construir edificio y obtener evento futuro de culminacion
                     // Agregar evento a la LEF
                     LEF.add(aldea.construirEdificio(tiempo, edificios[tipo]));
-                    jTextFieldOro.setText(String.valueOf((int)aldea.oro));
+                    jTextFieldOro.setText(String.valueOf((int) aldea.oro));
                 }
             }
-        }else{
-            if(aldea.elixir >= edificios[tipo].precioCompraMejora()){
-                if(aldea.constructoresLibres() > 0){
+        } else {
+            if (aldea.elixir >= edificios[tipo].precioCompraMejora()) {
+                if (aldea.constructoresLibres() > 0) {
                     // Bloquear constructor
                     aldea.bloquearConstructor();
                     // Obtener tiempo actual
@@ -430,19 +437,19 @@ public class frameAldea extends javax.swing.JFrame {
                     // Construir edificio y obtener evento futuro
                     // Agregar evento a la LEF
                     LEF.add(aldea.construirEdificio(tiempo, edificios[tipo]));
-                    jTextFieldElixir.setText(String.valueOf((int)aldea.elixir));
+                    jTextFieldElixir.setText(String.valueOf((int) aldea.elixir));
                 }
             }
         }
     }
     //  </editor-fold>
-    
+
     //------------------------------ MEJORAR EDIFICIOS ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="MejorarEdificio">
-    public void MejorarEdificio(Edificio edificio){
-        if(edificio.tipoCompra.equals("oro")){
-            if(aldea.oro >= edificio.precioCompraMejora()){
-                if(aldea.constructoresLibres() > 0){
+    public void MejorarEdificio(Edificio edificio) {
+        if (edificio.tipoCompra.equals("oro")) {
+            if (aldea.oro >= edificio.precioCompraMejora()) {
+                if (aldea.constructoresLibres() > 0) {
                     // Bloquear constructor
                     aldea.bloquearConstructor();
                     // Obtener tiempo actual
@@ -452,13 +459,12 @@ public class frameAldea extends javax.swing.JFrame {
                     // Mejorar edificio y obtener evento futuro de culminacion
                     // Agregar evento a la LEF
                     LEF.add(aldea.mejorarEdificio(tiempo, edificio));
-                    jTextFieldOro.setText(String.valueOf((int)aldea.oro));
+                    jTextFieldOro.setText(String.valueOf((int) aldea.oro));
                 }
             }
-        }
-        else{
-            if(aldea.elixir >= edificio.precioCompraMejora()){
-                if(aldea.constructoresLibres() > 0){
+        } else {
+            if (aldea.elixir >= edificio.precioCompraMejora()) {
+                if (aldea.constructoresLibres() > 0) {
                     // Bloquear constructor
                     aldea.bloquearConstructor();
                     // Obtener tiempo actual
@@ -468,21 +474,21 @@ public class frameAldea extends javax.swing.JFrame {
                     // Mejorar edificio y obtener evento futuro
                     // Agregar evento a la LEF
                     LEF.add(aldea.mejorarEdificio(tiempo, edificio));
-                    jTextFieldElixir.setText(String.valueOf((int)aldea.elixir));
+                    jTextFieldElixir.setText(String.valueOf((int) aldea.elixir));
                 }
             }
         }
-    }   
+    }
     //  </editor-fold>
-    
+
     //------------------------------ COMPRAR TROPA ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="ComprarTropa">
-    void ComprarTropa(int tipoTropa, Edificio edificio){
-        if(edificio.generaTropas()){
-            if(edificio.disponible(tropas[tipoTropa])){
-                if(aldea.elixir >= tropas[tipoTropa].precio){ // Este faltaba
-                    if(aldea.capacidadTropas() - aldea.poblacion >= tropas[tipoTropa].peso){
-                        if(edificio.capacidadCola() >= tropas[tipoTropa].peso){
+    void ComprarTropa(int tipoTropa, Edificio edificio) {
+        if (edificio.generaTropas()) {
+            if (edificio.disponible(tropas[tipoTropa])) {
+                if (aldea.elixir >= tropas[tipoTropa].precio) { // Este faltaba
+                    if (aldea.capacidadTropas() - aldea.poblacion >= tropas[tipoTropa].peso) {
+                        if (edificio.capacidadCola() >= tropas[tipoTropa].peso) {
                             // Obtener tiempo actual
                             Date tiempo = new Date();
                             // Gastar elixir de tropa
@@ -499,15 +505,16 @@ public class frameAldea extends javax.swing.JFrame {
                 }
             }
         }
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ CULMINAR EDIFICIO ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="CulminarEdificio">
-    private void culminarEdificio(Edificio edificio){
+    private void culminarEdificio(Edificio edificio) {
         // Si el edificio es una choza, liberar constructor
-        if(edificio.tipo == vg.CHOZA)
+        if (edificio.tipo == vg.CHOZA) {
             edificio.liberarConstructor();
+        }
         // Habilitar edificio recien creado/modificado
         edificio.habilitar();
         // Liberar constructor que estaba creando/modificando el edificio
@@ -525,112 +532,111 @@ public class frameAldea extends javax.swing.JFrame {
         }
     }     
     //  </editor-fold>
-    
+
     //------------------------------ CULMINAR TROPA ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="CulminarTropa">
-    private void culminarTropa(Edificio edificio, Tropa tropa){
-        System.out.println("Culminar tropa "+tropa.id);
+    private void culminarTropa(Edificio edificio, Tropa tropa) {
+        System.out.println("Culminar tropa " + tropa.id);
         // Agregar tropa a la aldea
         aldea.habilitarTropa(tropa);
         // Sumar tropa al label respectivo
         sumarTropa(tropa.tipo);
     }
     //  </editor-fold>
-    
+
     //------------------------------ SUMAR EDIFICIO A LABEL ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="sumarEdificio">
-    private void sumarEdificio(int tipo){
+    private void sumarEdificio(int tipo) {
         int cantActual;
         //Buscar tipo
-        switch(tipo){
+        switch (tipo) {
             case vg.CHOZA:
                 cantActual = Integer.parseInt(jTextFieldChoza.getText());
-                jTextFieldChoza.setText(String.valueOf(cantActual+1));
+                jTextFieldChoza.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.CAMPAMENTO:
                 cantActual = Integer.parseInt(jTextFieldCampamento.getText());
-                jTextFieldCampamento.setText(String.valueOf(cantActual+1));
+                jTextFieldCampamento.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.CUARTEL:
                 cantActual = Integer.parseInt(jTextFieldCuartel.getText());
-                jTextFieldCuartel.setText(String.valueOf(cantActual+1));
+                jTextFieldCuartel.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.MINA:
                 cantActual = Integer.parseInt(jTextFieldMina.getText());
-                jTextFieldMina.setText(String.valueOf(cantActual+1));
+                jTextFieldMina.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.RECOLECTOR:
                 cantActual = Integer.parseInt(jTextFieldRecolector.getText());
-                jTextFieldRecolector.setText(String.valueOf(cantActual+1));
+                jTextFieldRecolector.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.TORRE:
                 cantActual = Integer.parseInt(jTextFieldTorre.getText());
-                jTextFieldTorre.setText(String.valueOf(cantActual+1));
+                jTextFieldTorre.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.CAÑON:
                 cantActual = Integer.parseInt(jTextFieldCañon.getText());
-                jTextFieldCañon.setText(String.valueOf(cantActual+1));
+                jTextFieldCañon.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.MORTERO:
                 cantActual = Integer.parseInt(jTextFieldMortero.getText());
-                jTextFieldMortero.setText(String.valueOf(cantActual+1));
+                jTextFieldMortero.setText(String.valueOf(cantActual + 1));
                 break;
             default:
                 break;
         }
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ SUMAR TROPA A LABEL ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="sumarTropa">
-    private void sumarTropa(int tipo){
+    private void sumarTropa(int tipo) {
         int cantActual;
         //Buscar tipo
-        switch(tipo){
+        switch (tipo) {
             case vg.BARBARO:
                 cantActual = Integer.parseInt(jTextFieldBarbaro.getText());
-                jTextFieldBarbaro.setText(String.valueOf(cantActual+1));
+                jTextFieldBarbaro.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.ARQUERA:
                 cantActual = Integer.parseInt(jTextFieldArquera.getText());
-                jTextFieldArquera.setText(String.valueOf(cantActual+1));
+                jTextFieldArquera.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.GIGANTE:
                 cantActual = Integer.parseInt(jTextFieldGigante.getText());
-                jTextFieldGigante.setText(String.valueOf(cantActual+1));
+                jTextFieldGigante.setText(String.valueOf(cantActual + 1));
                 break;
             case vg.DUENDE:
                 cantActual = Integer.parseInt(jTextFieldDuende.getText());
-                jTextFieldDuende.setText(String.valueOf(cantActual+1));
+                jTextFieldDuende.setText(String.valueOf(cantActual + 1));
                 break;
         }
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ RECOGER RECURSOS ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="RecogerRecursos">
-    private void RecogerRecursos(Edificio edificio){
+    private void RecogerRecursos(Edificio edificio) {
         // Si es generarod re recursos y esta habilitado
-        if(edificio.generadorRecursos() && edificio.estaHabilitado()){
+        if (edificio.generadorRecursos() && edificio.estaHabilitado()) {
             double cantidad = edificio.recogerRecursos();
-            if(edificio.tipoRecurso().equals("oro")){
+            if (edificio.tipoRecurso().equals("oro")) {
                 double almacenado = aldea.oro;
                 almacenado += cantidad;
-                almacenado = (aldea.capacidadOro() < almacenado)? aldea.capacidadOro() : almacenado;
+                almacenado = (aldea.capacidadOro() < almacenado) ? aldea.capacidadOro() : almacenado;
                 //aldea.almacenar(almacenado);
                 aldea.almacenarOro(almacenado);
-            }
-            else{
+            } else {
                 double almacenado = aldea.elixir;
                 almacenado += cantidad;
-                almacenado = (aldea.capacidadElixir() < almacenado)? aldea.capacidadElixir() : almacenado;
+                almacenado = (aldea.capacidadElixir() < almacenado) ? aldea.capacidadElixir() : almacenado;
                 //aldea.almacenar(almacenado);
                 aldea.almacenarElixir(almacenado);
             }
         }
     }
     //  </editor-fold>
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -736,8 +742,13 @@ public class frameAldea extends javax.swing.JFrame {
         });
 
         jButton9.setText("Recibir Ataque");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 102));
         jLabel4.setText("Mi Aldea");
 
@@ -757,7 +768,7 @@ public class frameAldea extends javax.swing.JFrame {
 
         jTextFieldCuartel.setEnabled(false);
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel13.setText("Tropas");
 
         jTextFieldBarbaro.setEnabled(false);
@@ -768,10 +779,10 @@ public class frameAldea extends javax.swing.JFrame {
 
         jTextFieldDuende.setEnabled(false);
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel18.setText("Tropas");
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel19.setText("Tiempo");
 
         jTextField15.setEnabled(false);
@@ -936,7 +947,7 @@ public class frameAldea extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(33, 33, 33)
                                 .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel24)
                                     .addComponent(jTextFieldAyuntamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -996,11 +1007,11 @@ public class frameAldea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCrearEdificioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearEdificioActionPerformed
-     frameComprarEdificios obj = new frameComprarEdificios(this);
-    
-     obj.show();
-     
-           
+        frameComprarEdificios obj = new frameComprarEdificios(this);
+
+        obj.show();
+
+
     }//GEN-LAST:event_jButtonCrearEdificioActionPerformed
 
     private void jButtonCrearTropaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearTropaActionPerformed
@@ -1011,34 +1022,44 @@ public class frameAldea extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCrearTropaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      
+
         frameRealizarAtaque obj = new frameRealizarAtaque(this);
         obj.show();
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButtonMejorarEdificioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMejorarEdificioActionPerformed
-      
+
         frameMejorarEdificios obj = new frameMejorarEdificios(this);
         obj.show();
-        
+
     }//GEN-LAST:event_jButtonMejorarEdificioActionPerformed
 
 private void jButtonRecogerRecursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecogerRecursosActionPerformed
-        // Recoger Recursos
-        for(Edificio e: aldea.edificios){
-            RecogerRecursos(e);
-        }
-        // Mostrar Recursos
-        jTextFieldOro.setText(String.valueOf((int)aldea.oro));
-        //System.out.println("Elixir: "+aldea.elixir);
-        jTextFieldElixir.setText(String.valueOf((int)aldea.elixir));
+    // Recoger Recursos
+    for (Edificio e : aldea.edificios) {
+        RecogerRecursos(e);
+    }
+    // Mostrar Recursos
+    jTextFieldOro.setText(String.valueOf((int) aldea.oro));
+    //System.out.println("Elixir: "+aldea.elixir);
+    jTextFieldElixir.setText(String.valueOf((int) aldea.elixir));
 }//GEN-LAST:event_jButtonRecogerRecursosActionPerformed
 
 private void jTextFieldOroMinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldOroMinaActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_jTextFieldOroMinaActionPerformed
-    
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        if (ataque == null) {
+            int Oro = rand.nextInt(vg.maxOroAtaque) + vg.minOroAtaque;
+            int Elixir = rand.nextInt(vg.maxElixirAtaque) + vg.minElixirAtaque;
+
+            ataque = new Ataque(Oro, Elixir, edificios[vg.CUARTEL], tropas);
+            ataque.Atacar(aldea);
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton9;
