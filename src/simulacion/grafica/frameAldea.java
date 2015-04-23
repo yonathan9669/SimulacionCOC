@@ -6,8 +6,10 @@ package simulacion.grafica;
 
 import javax.swing.ImageIcon;
 import Civilizacion.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import simulacion.util.Ataque;
 
 /**
@@ -28,6 +30,7 @@ public class frameAldea extends javax.swing.JFrame {
     private Thread hiloEstadoAldea;
     // tiempoActual:
     private Date tiempoActual;
+    private Random rand;
     //  </editor-fold>
     private final long MILISEGS_POR_DIA = 24 * 60 * 60 * 1000; //Milisegundos al día 
     // LEF: Lista de Eventos Futuros
@@ -35,7 +38,8 @@ public class frameAldea extends javax.swing.JFrame {
 
     public frameAldea() {
         initComponents();
-
+        this.rand = new Random(System.currentTimeMillis());
+        
         this.jLabel3.setIcon(new ImageIcon(getClass().
                 getResource("logo.png")));
 
@@ -135,6 +139,7 @@ public class frameAldea extends javax.swing.JFrame {
 
         // Ayuntamiento
         int tipo = vg.AYUNTAMIENTO;
+        Point posicion = new Point(-1, -1);
         String tipoCompra = "oro";
         Mejora mejAy[] = new Mejora[vg.NIVELES];
         //precio,tiempo(segundos),vida,capacidad,tasa
@@ -143,14 +148,14 @@ public class frameAldea extends javax.swing.JFrame {
         mejAy[2] = new Mejora(4000, 30, 1850, 30000);
         mejAy[3] = new Mejora(25000, 40, 2100, 40000);
         mejAy[4] = new Mejora(150000, 50, 2400, 50000);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejAy);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejAy, posicion);
 
         // Choza de Constructor
         tipo = vg.CHOZA;
         tipoCompra = "elixir";
         Mejora mejCh[] = new Mejora[1];
         mejCh[0] = new Mejora(200, 10, 250, 0);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCh);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCh, posicion);
 
         // Campamento
         tipo = vg.CAMPAMENTO;
@@ -161,7 +166,7 @@ public class frameAldea extends javax.swing.JFrame {
         mejCa[2] = new Mejora(10000, 30, 600, 35);
         mejCa[3] = new Mejora(100000, 40, 700, 40);
         mejCa[4] = new Mejora(250000, 50, 800, 45);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCa);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCa, posicion);
 
         // Cuartel
         tipo = vg.CUARTEL;
@@ -172,7 +177,7 @@ public class frameAldea extends javax.swing.JFrame {
         mejCu[2] = new Mejora(2500, 30, 330, 35);
         mejCu[3] = new Mejora(5000, 40, 370, 40);
         mejCu[4] = new Mejora(1000, 50, 410, 45);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCu);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCu, posicion);
 
         // Mina de Oro
         tipo = vg.MINA;
@@ -183,7 +188,7 @@ public class frameAldea extends javax.swing.JFrame {
         mejMi[2] = new Mejora(700, 30, 500, 1500, 8);
         mejMi[3] = new Mejora(1400, 40, 550, 2500, 16);
         mejMi[4] = new Mejora(3000, 50, 590, 10000, 32);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMi);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMi, posicion);
 
         // Recolector de Elixir
         tipo = vg.RECOLECTOR;
@@ -194,40 +199,40 @@ public class frameAldea extends javax.swing.JFrame {
         mejRe[2] = new Mejora(700, 30, 500, 1500, 8);
         mejRe[3] = new Mejora(1400, 40, 550, 2500, 16);
         mejRe[4] = new Mejora(3000, 50, 590, 10000, 32);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejRe);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejRe, posicion);
 
         // Torre de Arqueras
         tipo = vg.TORRE;
         tipoCompra = "oro";
         Mejora mejTo[] = new Mejora[vg.NIVELES];
-        mejTo[0] = new Mejora(1000, 10, 380, 0, 11);
+        mejTo[4] = new Mejora(1000, 10, 380, 0, 11);
         mejTo[1] = new Mejora(2000, 20, 420, 0, 15);
         mejTo[2] = new Mejora(5000, 30, 460, 0, 19);
         mejTo[3] = new Mejora(20000, 40, 500, 0, 25);
-        mejTo[4] = new Mejora(80000, 50, 540, 0, 30);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejTo);
+        mejTo[0] = new Mejora(80000, 50, 540, 0, 30);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejTo, posicion);
 
         // Cañon
         tipo = vg.CAÑON;
         tipoCompra = "oro";
         Mejora mejCañ[] = new Mejora[vg.NIVELES];
-        mejCañ[0] = new Mejora(250, 10, 420, 0, 9);
+        mejCañ[4] = new Mejora(250, 10, 420, 0, 9);
         mejCañ[1] = new Mejora(1000, 20, 470, 0, 11);
         mejCañ[2] = new Mejora(4000, 30, 520, 0, 15);
         mejCañ[3] = new Mejora(16000, 40, 570, 0, 19);
-        mejCañ[4] = new Mejora(50000, 50, 620, 0, 25);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCañ);
+        mejCañ[0] = new Mejora(50000, 50, 620, 0, 25);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejCañ, posicion);
 
         // Mortero
         tipo = vg.MORTERO;
         tipoCompra = "oro";
         Mejora mejMo[] = new Mejora[vg.NIVELES];
-        mejMo[0] = new Mejora(8000, 10, 400, 0, 15);
+        mejMo[4] = new Mejora(8000, 10, 400, 0, 15);
         mejMo[1] = new Mejora(32000, 20, 450, 0, 19);
         mejMo[2] = new Mejora(120000, 30, 500, 0, 25);
         mejMo[3] = new Mejora(400000, 40, 550, 0, 30);
-        mejMo[4] = new Mejora(800000, 50, 600, 0, 35);
-        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMo);
+        mejMo[0] = new Mejora(800000, 50, 600, 0, 35);
+        edificios[tipo] = new Edificio(tipo, tipoCompra, mejMo, posicion);
     }
     //  </editor-fold>
 
@@ -1039,10 +1044,11 @@ private void jTextFieldOroMinaActionPerformed(java.awt.event.ActionEvent evt) {/
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         if (ataque == null) {
-            int Oro = (int) (Math.random() % vg.maxOroAtaque) + vg.minOroAtaque;
-            int Elixir = (int) (Math.random() % vg.maxElixirAtaque) + vg.minElixirAtaque;
+            int Oro = rand.nextInt(vg.maxOroAtaque) + vg.minOroAtaque;
+            int Elixir = rand.nextInt(vg.maxElixirAtaque) + vg.minElixirAtaque;
 
-            ataque = new Ataque(Oro, Elixir);
+            ataque = new Ataque(Oro, Elixir, edificios[vg.CUARTEL], tropas);
+            ataque.Atacar(aldea);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
