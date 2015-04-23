@@ -1,41 +1,44 @@
 package simulacion.grafica;
 import Civilizacion.*;
+import javax.swing.JOptionPane;
 
 public class frameMejorarEdificios extends javax.swing.JFrame {
 
     public frameAldea copia;
     public itemMejorarEdificio seleccionado;
+    public double oroAldea, elixirAldea;
     
     public frameMejorarEdificios(frameAldea obj) {
-        copia = obj;
         initComponents();
+        copia = obj;
+        oroAldea = copia.aldea.oro;
+        elixirAldea = copia.aldea.elixir;
         for(Edificio e: obj.aldea.edificios){
-            if(e.estaHabilitado()){
+            if(e.estaHabilitado() && (e.nivel+1)<e.mejoras.length){
                 switch(e.tipo){
                     case vg.AYUNTAMIENTO:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Ayuntamiento"));
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Ayuntamiento",e.tipoCompra));
                         break;
                     case vg.CAMPAMENTO:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Campamento"));
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Campamento",e.tipoCompra));
                         break;
                     case vg.CUARTEL:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Cuartel"));
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Cuartel",e.tipoCompra));
                         break;
                     case vg.MINA:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Mina de Oro"));
-                        jComboBox1.setName("MinOr");
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Mina de Oro",e.tipoCompra));
                         break;
                     case vg.RECOLECTOR:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Recolector de Elixir"));
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Recolector de Elixir",e.tipoCompra));
                         break;
                     case vg.TORRE:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Torre de Arqueras"));
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Torre de Arqueras",e.tipoCompra));
                         break;
                     case vg.CAÑON:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Cañón"));
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Cañón",e.tipoCompra));
                         break;
                     case vg.MORTERO:
-                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel].precio,"Mortero"));
+                        jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Mortero",e.tipoCompra));
                         break;
                 }
             }
@@ -64,6 +67,7 @@ public class frameMejorarEdificios extends javax.swing.JFrame {
         jTextFieldNombre = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jButtonVolver = new javax.swing.JButton();
+        jTextFieldTipoCompra = new javax.swing.JTextField();
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -109,6 +113,8 @@ public class frameMejorarEdificios extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldTipoCompra.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -129,9 +135,10 @@ public class frameMejorarEdificios extends javax.swing.JFrame {
                                     .addComponent(jTextFieldNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel5)
-                                    .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldTipoCompra)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(104, 104, 104)
                         .addComponent(jLabel1))
@@ -165,7 +172,9 @@ public class frameMejorarEdificios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldTipoCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonMejorar)
                     .addComponent(jButtonVolver))
@@ -180,10 +189,30 @@ public class frameMejorarEdificios extends javax.swing.JFrame {
         jTextFieldNivel.setText(String.valueOf(seleccionado.nivel+2));
         jTextFieldPrecio.setText(String.valueOf(seleccionado.precio));
         jTextFieldNombre.setText(String.valueOf(seleccionado.nombre));
+        jTextFieldTipoCompra.setText(String.valueOf(seleccionado.tipoCompra));
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
 private void jButtonMejorarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMejorarActionPerformed
-    copia.MejorarEdificio(copia.aldea.edificios.get(seleccionado.id));
+    // Verificar que pueda mejorar
+    if(seleccionado.tipoCompra.equals("oro")){
+        if(seleccionado.precio > oroAldea){
+            JOptionPane.showMessageDialog(this, "Necesita "+seleccionado.precio+" de oro para mejorar el edificio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }else{
+            copia.MejorarEdificio(copia.aldea.edificios.get(seleccionado.id));
+            JOptionPane.showMessageDialog(this, "Ha empezado a mejorar: "+seleccionado.nombre, "", JOptionPane.WARNING_MESSAGE);
+            this.setVisible(false);
+        }
+    }
+    else{
+        if(seleccionado.precio > elixirAldea){
+            JOptionPane.showMessageDialog(this, "Necesita "+seleccionado.precio+" de elixir para mejorar el edificio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }else{
+            copia.MejorarEdificio(copia.aldea.edificios.get(seleccionado.id));
+            JOptionPane.showMessageDialog(this, "Ha empezado a mejorar: "+seleccionado.nombre, "", JOptionPane.WARNING_MESSAGE);
+            this.setVisible(false);
+        }
+    }
+    
 }//GEN-LAST:event_jButtonMejorarActionPerformed
 
 private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
@@ -208,5 +237,6 @@ private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JTextField jTextFieldNivel;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldPrecio;
+    private javax.swing.JTextField jTextFieldTipoCompra;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,12 +1,15 @@
 package Civilizacion;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Edificio {
+public class Edificio extends Thread {
+
     //------------------------------ VARIABLES ---------------------------------
     // <editor-fold desc="Variables">
+    private Point posicion;
     // tipoCompra: Si el edificio se compra con "oro" o "elixir"
     // tipo: Cada valor entero es un edificio distinto
     // nivel: Nivel actual del edificio
@@ -29,257 +32,310 @@ public class Edificio {
     public ArrayList<Tropa> colaTropas;
     // constructorLibre: Valido solo para chozas porque por cada choza hay un constructor
     private boolean constructorLibre;
+    private boolean atacando;
+    private Tropa tropaAtacada;
     //  </editor-fold>
-    
+
     //------------------------------ CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="Constructor">
-    public Edificio(int ti, String tiCo, Mejora me[]){
+    public Edificio(int ti, String tiCo, Mejora me[], Point posicion) {
         nivel = 0;
         tipo = ti;
         tipoCompra = tiCo;
         mejoras = new Mejora[me.length];
-        for(int i=0;i<me.length;i++){
-            if(tipo == vg.MINA || tipo == vg.RECOLECTOR)
+        for (int i = 0; i < me.length; i++) {
+            if (tipo >= 4) {
                 mejoras[i] = new Mejora(me[i].precio, me[i].tiempo, me[i].vida, me[i].capacidad, me[i].tasa);
-            else
+            } else {
                 mejoras[i] = new Mejora(me[i].precio, me[i].tiempo, me[i].vida, me[i].capacidad);
+            }
         }
         colaTropas = new ArrayList<>();
         vidaActual = mejoras[0].vida;
         constructorLibre = false;
         habilitado = false;
         cantidadRecurso = 0;
+        this.posicion = posicion;
+        this.atacando = false;
     }
     //  </editor-fold>
-    
+
     //------------------------------ ESTABLECER ID ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="setId">
-    public void setId(int i){
+    public void setId(int i) {
         id = i;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ OBTENER ID ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="getId">
-    public int getId(){
+    public int getEdifId() {
         return id;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ HABILITAR ---------------------------------
     // Habilitar el edificio justo despues de ser construido o mejorado
     // <editor-fold defaultstate="collapsed" desc="Habilitar">
-    public void habilitar(){
+    public void habilitar() {
         habilitado = true;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ DESHABILITAR ---------------------------------
     // Deshabilitar el edificio
     // <editor-fold defaultstate="collapsed" desc="Deshabilitar">
-    public final void deshabilitar(){
+    public final void deshabilitar() {
         habilitado = false;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ ¿ESTA HABILITADO? ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="estaHabilitado">
-    public boolean estaHabilitado(){
+    public boolean estaHabilitado() {
         return habilitado;
-    }    
+    }
     //  </editor-fold>    
-    
+
     //------------------------------ ¿ES GENERADOR DE RECURSOS? ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="generadorRecursos">
-    public boolean generadorRecursos(){
-        if ((tipo == vg.MINA) || (tipo == vg.RECOLECTOR))
+    public boolean generadorRecursos() {
+        if ((tipo == vg.MINA) || (tipo == vg.RECOLECTOR)) {
             return true;
-        else
+        } else {
             return false;
-    }    
+        }
+    }
     //  </editor-fold>
-    
+
     //------------------------------ ACTUALIZAR RECURSOS ---------------------------------
     // Recoger recursos para pasarlos al edificio
     // <editor-fold defaultstate="collapsed" desc="actualizarRecursos">
-    public void actualizarRecursos(double transcurrido){
+    public void actualizarRecursos(double transcurrido) {
         cantidadRecurso += mejoras[nivel].tasa * transcurrido;
-        if(cantidadRecurso > mejoras[nivel].capacidad)
+        if (cantidadRecurso > mejoras[nivel].capacidad) {
             cantidadRecurso = mejoras[nivel].capacidad;
+        }
         //System.out.println(mejoras[nivel].tasa+" * "+transcurrido+" = "+(mejoras[nivel].tasa*transcurrido));
         //System.out.println("Cantidad de "+tipoRecurso()+": "+cantidadRecurso);
-    }    
+    }
     //  </editor-fold>    
-    
+
     //------------------------------ RECOGER RECURSOS ---------------------------------
     // Recoger los recursos del edificio para pasarlos a la aldea
     // El edificio termina con 0 recursos
     // <editor-fold defaultstate="collapsed" desc="recogerRecursos">
-    public double recogerRecursos(){
+    public double recogerRecursos() {
         double cantidad = cantidadRecurso;
         cantidadRecurso = 0;
         return cantidad;
-    }    
+    }
     //  </editor-fold>
-    
+
     //------------------------------ OBTENER CAPACIDAD RECURSO ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="capacidadRecurso">
-    public int capacidadRecurso(){
+    public int capacidadRecurso() {
         return mejoras[nivel].capacidad;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ TIPO DE RECURSO ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="tipoRecurso">
-    public String tipoRecurso(){
-        if (tipo == vg.MINA)
+    public String tipoRecurso() {
+        if (tipo == vg.MINA) {
             return "oro";
-        else 
+        } else {
             return "elixir";
-    }    
+        }
+    }
     //  </editor-fold>
-    
+
     //------------------------------ OBTENER PRECIO DE COMPRA O MEJORA ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="precioCompraMejora">
-    public int precioCompraMejora(){
+    public int precioCompraMejora() {
         return mejoras[nivel].precio;
-    }    
+    }
     //  </editor-fold>
-    
+
     //------------------------------ ¿GENERA TROPAS? ---------------------------------
     // Saber si este edificio genera tropas
     // <editor-fold defaultstate="collapsed" desc="generaTropas">
-    public boolean generaTropas(){
-        if(tipo == vg.CUARTEL)
+    public boolean generaTropas() {
+        if (tipo == vg.CUARTEL) {
             return true;
-        else
+        } else {
             return false;
-    }    
+        }
+    }
     //  </editor-fold>
-    
+
     //------------------------------ ¿TIPO DE TROPA DISPONIBLE? ---------------------------------
     // Saber si el tipo de tropa que se recibe por parametros esta disponible en este cuartel
     // (Si no esta disponible, el cuartel necesita subir de nivel)
     // <editor-fold defaultstate="collapsed" desc="disponible">
-    public boolean disponible(Tropa tropa){
-        if( (tipo == vg.CUARTEL) && (nivel >= tropa.nivelCuartel) )
+    public boolean disponible(Tropa tropa) {
+        if ((tipo == vg.CUARTEL) && (nivel >= tropa.nivelCuartel)) {
             return true;
-        else
+        } else {
             return false;
-    }    
+        }
+    }
     //  </editor-fold>
-    
+
     //------------------------------ OBTENER CAPACIDAD DE COLA ---------------------------------
     // Valido solo para cuarteles y campamentos
     // <editor-fold defaultstate="collapsed" desc="capacidadCola">
-    public int capacidadCola(){
-        if(tipo == vg.CUARTEL || tipo == vg.CAMPAMENTO)
+    public int capacidadCola() {
+        if (tipo == vg.CUARTEL || tipo == vg.CAMPAMENTO) {
             return mejoras[nivel].capacidad;
-        else
+        } else {
             return 0;
-    }    
+        }
+    }
     //  </editor-fold>
-    
+
     //------------------------------ CONSTRUIR TROPA ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="construirTropa">
-    public EventoFuturo construirTropa(Date tiempo, Tropa tr, int id){
+    public EventoFuturo construirTropa(Date tiempo, Tropa tr, int id) {
         // Crear objeto de nueva tropa
         Tropa tropa = new Tropa(tr.tipo, tr.precio, tr.peso, tr.vida, tr.tasaDaño, tr.tiempo, tr.nivelCuartel);
-        
+
         // Establecer id
         tropa.setId(id);
-        
+
         // Agregar tropa a la cola de este cuartel
         colaTropas.add(tropa);
-        
+
         // Calcular tiempo de finalizado de construccion
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(tiempo); // Configurar la fecha
         calendar.add(Calendar.SECOND, tropa.tiempo);  // Sumar los segundos de tiempo
-        
+
         // Crear evento futuro
         EventoFuturo evento = new EventoFuturo(calendar.getTime(), vg.EV_CULMINAR_TROPA, id);
-        
+
         // Imprimir tiempo de finalizado de construccion
         //System.out.println((calendar.getTime()));
-        
         return evento;
     }
+
     //  </editor-fold>
-    
+//------------------------------ CREAR TROPA ---------------------------------
+    // <editor-fold defaultstate="collapsed" desc="construirTropa">
+    public Tropa crearTropa(Tropa tr, int id) {
+        // Crear objeto de nueva tropa
+        Tropa tropa = new Tropa(tr.tipo, tr.precio, tr.peso, tr.vida, tr.tasaDaño, tr.tiempo, tr.nivelCuartel);
+        // Establecer id
+        tropa.setId(id);
+
+        return tropa;
+    }
+
+    //  </editor-fold>
     //------------------------------ LIBERAR COLA ---------------------------------
     // Valido solo para cuarteles
     // Devolver la primera tropa encolada
     // <editor-fold defaultstate="collapsed" desc="liberarCola">
-    public Tropa liberarCola(){
+    public Tropa liberarCola() {
         return colaTropas.remove(0);
-    }    
+    }
     //  </editor-fold>
-    
+
     //------------------------------ ATACAR ---------------------------------
     // Valido solo para torres
     // <editor-fold defaultstate="collapsed" desc="Atacar">
-    public void atacar(Tropa tropa){
-        
+    public void atacar(Tropa tropa) {
+        if (tropa != null) {
+            this.tropaAtacada = tropa;
+            this.atacando = true;
+            this.start();
+        }
     }
     //  </editor-fold>
-    
+
     //------------------------------ LIBERAR CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="LiberarConstructor">
-    public void liberarConstructor(){
+    public void liberarConstructor() {
         constructorLibre = true;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ BLOQUEAR CONSTRUCTOR ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="BloquearConstructor">
-    public final void bloquearConstructor(){
+    public final void bloquearConstructor() {
         constructorLibre = false;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ ¿ESTA LIBRE EL CONSTRUCTOR? ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="constructorLibre">
-    public boolean constructorLibre(){
+    public boolean constructorLibre() {
         return constructorLibre;
-    }    
+    }
     //  </editor-fold>
-    
+
     //------------------------------ AUMENTAR NIVEL ---------------------------------
     // <editor-fold defaultstate="collapsed" desc="aumentarNivel">
-    public void aumentarNivel(){
+    public void aumentarNivel() {
         nivel++;
-    }     
+    }
     //  </editor-fold>
-    
+
     //------------------------------ DEVOLVER NOMBRE DE EDIFICIO ---------------------------------
     // Usado para imprimir
     // <editor-fold defaultstate="collapsed" desc="getNombre">
-    public String getNombre(){
-        if(tipo == vg.AYUNTAMIENTO)
+    public String getNombre() {
+        if (tipo == vg.AYUNTAMIENTO) {
             return "Ayuntamiento";
-        else if(tipo == vg.CHOZA)
+        } else if (tipo == vg.CHOZA) {
             return "Choza de Constructor";
-        else if(tipo == vg.CAMPAMENTO)
+        } else if (tipo == vg.CAMPAMENTO) {
             return "Campamento";
-        else if(tipo == vg.CUARTEL)
+        } else if (tipo == vg.CUARTEL) {
             return "Cuartel";
-        else if(tipo == vg.MINA)
+        } else if (tipo == vg.MINA) {
             return "Mina de Oro";
-        else if(tipo == vg.RECOLECTOR)
+        } else if (tipo == vg.RECOLECTOR) {
             return "Recolector de Elixir";
-        else if(tipo == vg.TORRE)
+        } else if (tipo == vg.TORRE) {
             return "Torre de Arqueras";
-        else if(tipo == vg.CAÑON)
+        } else if (tipo == vg.CAÑON) {
             return "Cañón";
-        else if(tipo == vg.MORTERO)
+        } else if (tipo == vg.MORTERO) {
             return "Mortero";
+        }
         return "";
-    }     
+    }
     //  </editor-fold>
+
+    @Override
+    public void run() {
+        int tasa = (int) this.mejoras[this.nivel].tasa;
+        System.out.println(id + ".- " + this.getNombre() + " ATACANDO " + this.tropaAtacada.getNombre() + " #" + this.tropaAtacada.getTropaId());
+
+        while (atacando) {
+            try {
+                Thread.sleep(vg.RETRASO);
+                this.tropaAtacada.vidaActual -= tasa;
+                this.atacando = this.tropaAtacada.vidaActual > 0 && this.vidaActual > 0;
+            } catch (Exception ex) {
+                System.out.println("Problema al dormir el hilo");
+            }
+        }
+
+        if (vidaActual > 0) {
+            System.out.println(id + ".- " + this.getNombre() + " DESTRUYE " + this.tropaAtacada.getNombre() + " #" + this.tropaAtacada.getTropaId());
+        } else {
+            System.out.println(id + ".- " + this.getNombre() + " DESTRUIDO");
+        }
+    }
 
     @Override
     public String toString() {
         return this.getNombre();
+    }
+
+    boolean atacando() {
+        return this.atacando;
     }
 }
