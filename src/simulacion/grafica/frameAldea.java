@@ -135,11 +135,11 @@ public class frameAldea extends javax.swing.JFrame {
         String tipoCompra = "oro";
         Mejora mejAy[] = new Mejora[vg.NIVELES];
         //precio,tiempo(segundos),vida,capacidad,tasa
-        mejAy[0] = new Mejora(0,10,1500,10000);
-        mejAy[1] = new Mejora(1000,20,1600,20000);
-        mejAy[2] = new Mejora(4000,30,1850,30000);
-        mejAy[3] = new Mejora(25000,40,2100,40000);
-        mejAy[4] = new Mejora(150000,50,2400,50000);
+        mejAy[0] = new Mejora(1000,10,1500,10000);
+        mejAy[1] = new Mejora(4000,20,1600,20000);
+        mejAy[2] = new Mejora(8000,30,1850,30000);
+        mejAy[3] = new Mejora(15000,40,2100,40000);
+        mejAy[4] = new Mejora(250000,50,2400,50000);
         edificios[tipo] = new Edificio(tipo, tipoCompra, mejAy);
         
         // Choza de Constructor
