@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import Civilizacion.*;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 /**
  *
  * @author gaby
@@ -347,6 +348,7 @@ public class frameAldea extends javax.swing.JFrame {
                 puedeCrearTropas = true;
             
         }
+        
         // Habilitar/deshabilitar boton crear tropas
         jButtonCrearTropa.setEnabled(puedeCrearTropas);
         
@@ -488,7 +490,7 @@ public class frameAldea extends javax.swing.JFrame {
                             // Construir trpá y obtener evento futuro de culminacion
                             // Agregar evento a la LEF
                             LEF.add(edificio.construirTropa(tiempo, tropas[tipoTropa],aldea.getIdTropas()));
-                            jTextFieldOro.setText(String.valueOf((int)aldea.elixir));
+                            jTextFieldElixir.setText(String.valueOf((int)aldea.elixir));
 
                             // Aumentar tamaño de poblacion
                             aldea.poblacion += tropas[tipoTropa].peso;
@@ -510,9 +512,17 @@ public class frameAldea extends javax.swing.JFrame {
         edificio.habilitar();
         // Liberar constructor que estaba creando/modificando el edificio
         aldea.liberarConstructor();
-        // Si el edificio es nuevo, sumarlo a label respectivo
-        if(edificio.nivel == 0)
+        // Verificar si el edificio es nuevo o estaba mejorando
+        if(edificio.nivel == 0){
+            // Sumar edificio a su label respectivo
             sumarEdificio(edificio.tipo);
+            // Mensaje de construccion finalizada
+            JOptionPane.showMessageDialog(this, "Construccion de "+edificio.getNombre()+" finalizada", "", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            // Mensaje de mejora finalizada
+            JOptionPane.showMessageDialog(this, "Mejora de "+edificio.getNombre()+" a nivel "+String.valueOf(edificio.nivel+1) +" finalizada", "", JOptionPane.WARNING_MESSAGE);
+        }
     }     
     //  </editor-fold>
     

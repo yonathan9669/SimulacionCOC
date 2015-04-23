@@ -1,5 +1,6 @@
 package simulacion.grafica;
 import Civilizacion.*;
+import javax.swing.JOptionPane;
 
 public class frameMejorarEdificios extends javax.swing.JFrame {
 
@@ -10,10 +11,10 @@ public class frameMejorarEdificios extends javax.swing.JFrame {
     public frameMejorarEdificios(frameAldea obj) {
         initComponents();
         copia = obj;
-        oro = copia.aldea.oro;
-        elixir = copia.aldea.elixir;
+        oroAldea = copia.aldea.oro;
+        elixirAldea = copia.aldea.elixir;
         for(Edificio e: obj.aldea.edificios){
-            if(e.estaHabilitado()){
+            if(e.estaHabilitado() && (e.nivel+1)<e.mejoras.length){
                 switch(e.tipo){
                     case vg.AYUNTAMIENTO:
                         jComboBox1.addItem(new itemMejorarEdificio(e.id,e.nivel,e.mejoras[e.nivel+1].precio,"Ayuntamiento",e.tipoCompra));
@@ -195,13 +196,23 @@ private void jButtonMejorarActionPerformed(java.awt.event.ActionEvent evt) {//GE
     // Verificar que pueda mejorar
     if(seleccionado.tipoCompra.equals("oro")){
         if(seleccionado.precio > oroAldea){
-        
+            JOptionPane.showMessageDialog(this, "Necesita "+seleccionado.precio+" de oro para mejorar el edificio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }else{
+            copia.MejorarEdificio(copia.aldea.edificios.get(seleccionado.id));
+            JOptionPane.showMessageDialog(this, "Ha empezado a mejorar: "+seleccionado.nombre, "", JOptionPane.WARNING_MESSAGE);
+            this.setVisible(false);
         }
     }
     else{
-    
+        if(seleccionado.precio > elixirAldea){
+            JOptionPane.showMessageDialog(this, "Necesita "+seleccionado.precio+" de elixir para mejorar el edificio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }else{
+            copia.MejorarEdificio(copia.aldea.edificios.get(seleccionado.id));
+            JOptionPane.showMessageDialog(this, "Ha empezado a mejorar: "+seleccionado.nombre, "", JOptionPane.WARNING_MESSAGE);
+            this.setVisible(false);
+        }
     }
-    copia.MejorarEdificio(copia.aldea.edificios.get(seleccionado.id));
+    
 }//GEN-LAST:event_jButtonMejorarActionPerformed
 
 private void jButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVolverActionPerformed
