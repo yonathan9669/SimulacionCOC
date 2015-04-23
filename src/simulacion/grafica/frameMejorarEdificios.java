@@ -1,15 +1,15 @@
 package simulacion.grafica;
 import Civilizacion.*;
 
-public class mejorarEdificio extends javax.swing.JFrame {
+public class frameMejorarEdificios extends javax.swing.JFrame {
 
-    public aldeaGRAP copia;
+    public frameAldea copia;
     public itemMejorarEdificio seleccionado;
     
-    public mejorarEdificio(aldeaGRAP obj) {
+    public frameMejorarEdificios(frameAldea obj) {
         copia = obj;
         initComponents();
-        for(ClaseEdificio e: obj.aldea.edificios){
+        for(Edificio e: obj.aldea.edificios){
             if(e.estaHabilitado()){
                 switch(e.tipo){
                     case vg.AYUNTAMIENTO:

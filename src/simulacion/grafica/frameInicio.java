@@ -11,12 +11,12 @@ import javax.swing.JOptionPane;
  *
  * @author gaby
  */
-public class interfaz1 extends javax.swing.JFrame {
+public class frameInicio extends javax.swing.JFrame {
 
     /**
      * Creates new form interfaz1
      */
-    public interfaz1() {
+    public frameInicio() {
         initComponents();
        
         this.jLabel22.setIcon(new ImageIcon(getClass(). 
@@ -316,7 +316,7 @@ public class interfaz1 extends javax.swing.JFrame {
                                 if(this.mortero.getText().compareTo("")!=0){
                                     if(this.campamento.getText().compareTo("")!=0){                                        
                                                                      
-                                        aldeaGRAP obj = new aldeaGRAP();
+                                        frameAldea obj = new frameAldea();
                                         obj.aldeappal(this);
                                         obj.show();
                                         /*System.out.println("minas de oro: "+this.minaORO.getText());
@@ -381,13 +381,13 @@ public class interfaz1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(interfaz1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frameInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -397,7 +397,7 @@ public class interfaz1 extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new interfaz1().setVisible(true);
+                new frameInicio().setVisible(true);
             }
         });
     }

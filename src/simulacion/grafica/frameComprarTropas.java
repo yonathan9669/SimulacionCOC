@@ -1,15 +1,15 @@
 package simulacion.grafica;
 import Civilizacion.*;
 
-public class Tropa extends javax.swing.JFrame {
+public class frameComprarTropas extends javax.swing.JFrame {
 
-    public aldeaGRAP copia;
+    public frameAldea copia;
     public itemComprarTropa seleccionado;
     
-    public Tropa(aldeaGRAP obj) {
+    public frameComprarTropas(frameAldea obj) {
         copia = obj;
         initComponents();
-        for(ClaseEdificio e: obj.aldea.edificios){
+        for(Edificio e: obj.aldea.edificios){
             if(e.estaHabilitado() && (e.tipo==vg.CUARTEL)){
                 jComboBox3.addItem(new itemComprarTropa(e.id,e.nivel,e.colaTropas,"Cuartel"));
             }
@@ -271,7 +271,7 @@ private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         
         // Mostrar tropas en cola
         int bar = 0, arq = 0, gig = 0, due = 0;
-        for(ClaseTropa t: seleccionado.colaTropas){
+        for(Tropa t: seleccionado.colaTropas){
             if(t.tipo == vg.BARBARO)
                 bar++;
             if(t.tipo == vg.ARQUERA)
